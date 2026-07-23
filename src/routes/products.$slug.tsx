@@ -87,7 +87,7 @@ function ProductDetail() {
               {activeImg && <img src={activeImg} alt={product.name} className="h-full w-full object-cover" />}
             </div>
             <div className="grid grid-cols-4 gap-2 mt-2">
-              {(product.images ?? []).slice(0, 8).map((img) => (
+              {(product.images ?? []).slice(0, 8).map((img: string) => (
                 <button key={img} onClick={() => setActiveImg(img)} className={`aspect-square overflow-hidden bg-muted ${activeImg === img ? "ring-2 ring-accent" : ""}`}>
                   <img src={img} alt="" className="h-full w-full object-cover" />
                 </button>
@@ -114,7 +114,7 @@ function ProductDetail() {
               <div className="mt-8">
                 <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-2">Color · {color}</div>
                 <div className="flex flex-wrap gap-2">
-                  {product.colors.map((c) => (
+                  {product.colors.map((c: string) => (
                     <button key={c} onClick={() => setColor(c)} className={`px-4 py-2 border text-sm ${color === c ? "border-accent text-accent" : "border-input"}`}>{c}</button>
                   ))}
                 </div>
@@ -127,7 +127,7 @@ function ProductDetail() {
                   <Link to="/size-guide" className="underline underline-offset-2">Size guide</Link>
                 </div>
                 <div className="grid grid-cols-6 gap-2">
-                  {product.sizes.map((s) => (
+                  {product.sizes.map((s: string) => (
                     <button key={s} onClick={() => setSize(s)} className={`py-3 border text-sm ${size === s ? "border-accent text-accent" : "border-input hover:border-foreground"}`}>{s}</button>
                   ))}
                 </div>
@@ -166,7 +166,7 @@ function ProductDetail() {
                 <details className="border-t border-border pt-4">
                   <summary className="cursor-pointer font-serif text-xl">Features & materials</summary>
                   <ul className="mt-3 space-y-1 text-sm text-muted-foreground">
-                    {product.features.map((f) => <li key={f}>• {f}</li>)}
+                    {product.features.map((f: string) => <li key={f}>• {f}</li>)}
                     {product.material && <li>• Material: {product.material}</li>}
                     {product.weight_grams && <li>• Weight: {product.weight_grams}g / pair</li>}
                   </ul>
@@ -193,7 +193,7 @@ function ProductDetail() {
           <section className="mt-24 border-t border-border pt-16">
             <h2 className="font-serif text-3xl">Customer reviews</h2>
             <div className="grid md:grid-cols-3 gap-6 mt-8">
-              {reviews.slice(0, 6).map((r) => (
+              {reviews.slice(0, 6).map((r: any) => (
                 <div key={r.id} className="border border-border p-6">
                   <Stars value={r.rating} />
                   <div className="mt-3 font-serif text-lg">{r.title}</div>
