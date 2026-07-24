@@ -3,11 +3,10 @@ import { Menu, Search, User, X, Heart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { SITE } from "@/lib/site-config";
-import { ShopifyCartDrawer } from "@/components/site/ShopifyCartDrawer";
+import { CartDrawer } from "@/components/site/CartDrawer";
 
 const NAV = [
-  { to: "/shop", label: "Shop" },
-  { to: "/products", label: "Catalog" },
+  { to: "/products", label: "Shop" },
   { to: "/manufacturing", label: "Manufacturing" },
   { to: "/wholesale", label: "Wholesale" },
   { to: "/about", label: "About" },
@@ -78,7 +77,7 @@ export function Header() {
             <Link to={signedIn ? "/account" : "/auth"} className="p-2 hover:text-accent" aria-label="Account">
               <User className="size-5" />
             </Link>
-            <ShopifyCartDrawer />
+            <CartDrawer />
           </div>
         </div>
       </header>
