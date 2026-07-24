@@ -1,13 +1,17 @@
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
-import { LayoutDashboard, Package, ShoppingBag, Star, Users, Settings } from "lucide-react";
+import { LayoutDashboard, Package, ShoppingBag, Star, Users, Settings, FileText, Image, Tag, Mail } from "lucide-react";
 
 const NAV = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/admin/orders", label: "Orders", icon: ShoppingBag },
   { to: "/admin/products", label: "Products", icon: Package },
+  { to: "/admin/categories", label: "Categories", icon: Tag },
+  { to: "/admin/blog", label: "Blog", icon: FileText },
+  { to: "/admin/gallery", label: "Gallery", icon: Image },
   { to: "/admin/reviews", label: "Reviews", icon: Star },
   { to: "/admin/customers", label: "Customers", icon: Users },
+  { to: "/admin/messages", label: "Messages", icon: Mail },
   { to: "/admin/settings", label: "Settings", icon: Settings },
 ];
 
