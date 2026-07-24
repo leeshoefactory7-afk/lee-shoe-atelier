@@ -1,12 +1,13 @@
 import { Link } from "@tanstack/react-router";
-import { Menu, Search, ShoppingBag, User, X, Heart } from "lucide-react";
+import { Menu, Search, User, X, Heart } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useCart } from "@/lib/cart-store";
 import { supabase } from "@/integrations/supabase/client";
 import { SITE } from "@/lib/site-config";
+import { ShopifyCartDrawer } from "@/components/site/ShopifyCartDrawer";
 
 const NAV = [
-  { to: "/products", label: "Shop" },
+  { to: "/shop", label: "Shop" },
+  { to: "/products", label: "Catalog" },
   { to: "/manufacturing", label: "Manufacturing" },
   { to: "/wholesale", label: "Wholesale" },
   { to: "/about", label: "About" },

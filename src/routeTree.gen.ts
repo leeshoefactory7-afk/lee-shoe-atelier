@@ -18,6 +18,7 @@ import { Route as SustainabilityRouteImport } from './routes/sustainability'
 import { Route as StoreLocatorRouteImport } from './routes/store-locator'
 import { Route as SizeGuideRouteImport } from './routes/size-guide'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as ShopRouteImport } from './routes/shop'
 import { Route as ShippingRouteImport } from './routes/shipping'
 import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as ReturnsRouteImport } from './routes/returns'
@@ -44,6 +45,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
+import { Route as ProductHandleRouteImport } from './routes/product.$handle'
 import { Route as OrderSuccessOrderNumberRouteImport } from './routes/order-success.$orderNumber'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
@@ -98,6 +100,11 @@ const SizeGuideRoute = SizeGuideRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShopRoute = ShopRouteImport.update({
+  id: '/shop',
+  path: '/shop',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ShippingRoute = ShippingRouteImport.update({
@@ -229,6 +236,11 @@ const ProductsSlugRoute = ProductsSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => ProductsRoute,
 } as any)
+const ProductHandleRoute = ProductHandleRouteImport.update({
+  id: '/product/$handle',
+  path: '/product/$handle',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OrderSuccessOrderNumberRoute = OrderSuccessOrderNumberRouteImport.update({
   id: '/order-success/$orderNumber',
   path: '/order-success/$orderNumber',
@@ -310,6 +322,7 @@ export interface FileRoutesByFullPath {
   '/returns': typeof ReturnsRoute
   '/reviews': typeof ReviewsRoute
   '/shipping': typeof ShippingRoute
+  '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/size-guide': typeof SizeGuideRoute
   '/store-locator': typeof StoreLocatorRoute
@@ -323,6 +336,7 @@ export interface FileRoutesByFullPath {
   '/blog/$slug': typeof BlogSlugRoute
   '/category/$slug': typeof CategorySlugRoute
   '/order-success/$orderNumber': typeof OrderSuccessOrderNumberRoute
+  '/product/$handle': typeof ProductHandleRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/admin/customers': typeof AuthenticatedAdminCustomersRoute
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
@@ -356,6 +370,7 @@ export interface FileRoutesByTo {
   '/returns': typeof ReturnsRoute
   '/reviews': typeof ReviewsRoute
   '/shipping': typeof ShippingRoute
+  '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/size-guide': typeof SizeGuideRoute
   '/store-locator': typeof StoreLocatorRoute
@@ -368,6 +383,7 @@ export interface FileRoutesByTo {
   '/blog/$slug': typeof BlogSlugRoute
   '/category/$slug': typeof CategorySlugRoute
   '/order-success/$orderNumber': typeof OrderSuccessOrderNumberRoute
+  '/product/$handle': typeof ProductHandleRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/admin/customers': typeof AuthenticatedAdminCustomersRoute
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
@@ -403,6 +419,7 @@ export interface FileRoutesById {
   '/returns': typeof ReturnsRoute
   '/reviews': typeof ReviewsRoute
   '/shipping': typeof ShippingRoute
+  '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/size-guide': typeof SizeGuideRoute
   '/store-locator': typeof StoreLocatorRoute
@@ -416,6 +433,7 @@ export interface FileRoutesById {
   '/blog/$slug': typeof BlogSlugRoute
   '/category/$slug': typeof CategorySlugRoute
   '/order-success/$orderNumber': typeof OrderSuccessOrderNumberRoute
+  '/product/$handle': typeof ProductHandleRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/_authenticated/admin/customers': typeof AuthenticatedAdminCustomersRoute
   '/_authenticated/admin/orders': typeof AuthenticatedAdminOrdersRoute
@@ -451,6 +469,7 @@ export interface FileRouteTypes {
     | '/returns'
     | '/reviews'
     | '/shipping'
+    | '/shop'
     | '/sitemap.xml'
     | '/size-guide'
     | '/store-locator'
@@ -464,6 +483,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/category/$slug'
     | '/order-success/$orderNumber'
+    | '/product/$handle'
     | '/products/$slug'
     | '/admin/customers'
     | '/admin/orders'
@@ -497,6 +517,7 @@ export interface FileRouteTypes {
     | '/returns'
     | '/reviews'
     | '/shipping'
+    | '/shop'
     | '/sitemap.xml'
     | '/size-guide'
     | '/store-locator'
@@ -509,6 +530,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/category/$slug'
     | '/order-success/$orderNumber'
+    | '/product/$handle'
     | '/products/$slug'
     | '/admin/customers'
     | '/admin/orders'
@@ -543,6 +565,7 @@ export interface FileRouteTypes {
     | '/returns'
     | '/reviews'
     | '/shipping'
+    | '/shop'
     | '/sitemap.xml'
     | '/size-guide'
     | '/store-locator'
@@ -556,6 +579,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/category/$slug'
     | '/order-success/$orderNumber'
+    | '/product/$handle'
     | '/products/$slug'
     | '/_authenticated/admin/customers'
     | '/_authenticated/admin/orders'
@@ -591,6 +615,7 @@ export interface RootRouteChildren {
   ReturnsRoute: typeof ReturnsRoute
   ReviewsRoute: typeof ReviewsRoute
   ShippingRoute: typeof ShippingRoute
+  ShopRoute: typeof ShopRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SizeGuideRoute: typeof SizeGuideRoute
   StoreLocatorRoute: typeof StoreLocatorRoute
@@ -602,6 +627,7 @@ export interface RootRouteChildren {
   WholesaleTermsRoute: typeof WholesaleTermsRoute
   CategorySlugRoute: typeof CategorySlugRoute
   OrderSuccessOrderNumberRoute: typeof OrderSuccessOrderNumberRoute
+  ProductHandleRoute: typeof ProductHandleRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -667,6 +693,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shop': {
+      id: '/shop'
+      path: '/shop'
+      fullPath: '/shop'
+      preLoaderRoute: typeof ShopRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/shipping': {
@@ -851,6 +884,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsSlugRouteImport
       parentRoute: typeof ProductsRoute
     }
+    '/product/$handle': {
+      id: '/product/$handle'
+      path: '/product/$handle'
+      fullPath: '/product/$handle'
+      preLoaderRoute: typeof ProductHandleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/order-success/$orderNumber': {
       id: '/order-success/$orderNumber'
       path: '/order-success/$orderNumber'
@@ -1004,6 +1044,7 @@ const rootRouteChildren: RootRouteChildren = {
   ReturnsRoute: ReturnsRoute,
   ReviewsRoute: ReviewsRoute,
   ShippingRoute: ShippingRoute,
+  ShopRoute: ShopRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SizeGuideRoute: SizeGuideRoute,
   StoreLocatorRoute: StoreLocatorRoute,
@@ -1015,6 +1056,7 @@ const rootRouteChildren: RootRouteChildren = {
   WholesaleTermsRoute: WholesaleTermsRoute,
   CategorySlugRoute: CategorySlugRoute,
   OrderSuccessOrderNumberRoute: OrderSuccessOrderNumberRoute,
+  ProductHandleRoute: ProductHandleRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
