@@ -10,7 +10,7 @@ import { Search } from "lucide-react";
 const q = queryOptions({ queryKey: ["all-products"], queryFn: () => listProducts({ data: { limit: 200 } }) });
 const cq = queryOptions({ queryKey: ["categories"], queryFn: () => listCategories() });
 
-export const Route = createFileRoute("/products")({
+export const Route = createFileRoute("/products/")({
   loader: ({ context }) => {
     context.queryClient.ensureQueryData(q);
     context.queryClient.ensureQueryData(cq);

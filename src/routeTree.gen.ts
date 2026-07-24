@@ -23,7 +23,6 @@ import { Route as ShippingRouteImport } from './routes/shipping'
 import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as ReturnsRouteImport } from './routes/returns'
 import { Route as RefundPolicyRouteImport } from './routes/refund-policy'
-import { Route as ProductsRouteImport } from './routes/products'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PressRouteImport } from './routes/press'
 import { Route as MaterialsRouteImport } from './routes/materials'
@@ -44,6 +43,7 @@ import { Route as AccessibilityRouteImport } from './routes/accessibility'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
 import { Route as ProductHandleRouteImport } from './routes/product.$handle'
 import { Route as OrderSuccessOrderNumberRouteImport } from './routes/order-success.$orderNumber'
@@ -125,11 +125,6 @@ const ReturnsRoute = ReturnsRouteImport.update({
 const RefundPolicyRoute = RefundPolicyRouteImport.update({
   id: '/refund-policy',
   path: '/refund-policy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProductsRoute = ProductsRouteImport.update({
-  id: '/products',
-  path: '/products',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -231,10 +226,15 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProductsIndexRoute = ProductsIndexRouteImport.update({
+  id: '/products/',
+  path: '/products/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductsSlugRoute = ProductsSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => ProductsRoute,
+  id: '/products/$slug',
+  path: '/products/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ProductHandleRoute = ProductHandleRouteImport.update({
   id: '/product/$handle',
@@ -317,7 +317,6 @@ export interface FileRoutesByFullPath {
   '/materials': typeof MaterialsRoute
   '/press': typeof PressRoute
   '/privacy': typeof PrivacyRoute
-  '/products': typeof ProductsRouteWithChildren
   '/refund-policy': typeof RefundPolicyRoute
   '/returns': typeof ReturnsRoute
   '/reviews': typeof ReviewsRoute
@@ -338,6 +337,7 @@ export interface FileRoutesByFullPath {
   '/order-success/$orderNumber': typeof OrderSuccessOrderNumberRoute
   '/product/$handle': typeof ProductHandleRoute
   '/products/$slug': typeof ProductsSlugRoute
+  '/products/': typeof ProductsIndexRoute
   '/admin/customers': typeof AuthenticatedAdminCustomersRoute
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
   '/admin/products': typeof AuthenticatedAdminProductsRoute
@@ -365,7 +365,6 @@ export interface FileRoutesByTo {
   '/materials': typeof MaterialsRoute
   '/press': typeof PressRoute
   '/privacy': typeof PrivacyRoute
-  '/products': typeof ProductsRouteWithChildren
   '/refund-policy': typeof RefundPolicyRoute
   '/returns': typeof ReturnsRoute
   '/reviews': typeof ReviewsRoute
@@ -385,6 +384,7 @@ export interface FileRoutesByTo {
   '/order-success/$orderNumber': typeof OrderSuccessOrderNumberRoute
   '/product/$handle': typeof ProductHandleRoute
   '/products/$slug': typeof ProductsSlugRoute
+  '/products': typeof ProductsIndexRoute
   '/admin/customers': typeof AuthenticatedAdminCustomersRoute
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
   '/admin/products': typeof AuthenticatedAdminProductsRoute
@@ -414,7 +414,6 @@ export interface FileRoutesById {
   '/materials': typeof MaterialsRoute
   '/press': typeof PressRoute
   '/privacy': typeof PrivacyRoute
-  '/products': typeof ProductsRouteWithChildren
   '/refund-policy': typeof RefundPolicyRoute
   '/returns': typeof ReturnsRoute
   '/reviews': typeof ReviewsRoute
@@ -435,6 +434,7 @@ export interface FileRoutesById {
   '/order-success/$orderNumber': typeof OrderSuccessOrderNumberRoute
   '/product/$handle': typeof ProductHandleRoute
   '/products/$slug': typeof ProductsSlugRoute
+  '/products/': typeof ProductsIndexRoute
   '/_authenticated/admin/customers': typeof AuthenticatedAdminCustomersRoute
   '/_authenticated/admin/orders': typeof AuthenticatedAdminOrdersRoute
   '/_authenticated/admin/products': typeof AuthenticatedAdminProductsRoute
@@ -464,7 +464,6 @@ export interface FileRouteTypes {
     | '/materials'
     | '/press'
     | '/privacy'
-    | '/products'
     | '/refund-policy'
     | '/returns'
     | '/reviews'
@@ -485,6 +484,7 @@ export interface FileRouteTypes {
     | '/order-success/$orderNumber'
     | '/product/$handle'
     | '/products/$slug'
+    | '/products/'
     | '/admin/customers'
     | '/admin/orders'
     | '/admin/products'
@@ -512,7 +512,6 @@ export interface FileRouteTypes {
     | '/materials'
     | '/press'
     | '/privacy'
-    | '/products'
     | '/refund-policy'
     | '/returns'
     | '/reviews'
@@ -532,6 +531,7 @@ export interface FileRouteTypes {
     | '/order-success/$orderNumber'
     | '/product/$handle'
     | '/products/$slug'
+    | '/products'
     | '/admin/customers'
     | '/admin/orders'
     | '/admin/products'
@@ -560,7 +560,6 @@ export interface FileRouteTypes {
     | '/materials'
     | '/press'
     | '/privacy'
-    | '/products'
     | '/refund-policy'
     | '/returns'
     | '/reviews'
@@ -581,6 +580,7 @@ export interface FileRouteTypes {
     | '/order-success/$orderNumber'
     | '/product/$handle'
     | '/products/$slug'
+    | '/products/'
     | '/_authenticated/admin/customers'
     | '/_authenticated/admin/orders'
     | '/_authenticated/admin/products'
@@ -610,7 +610,6 @@ export interface RootRouteChildren {
   MaterialsRoute: typeof MaterialsRoute
   PressRoute: typeof PressRoute
   PrivacyRoute: typeof PrivacyRoute
-  ProductsRoute: typeof ProductsRouteWithChildren
   RefundPolicyRoute: typeof RefundPolicyRoute
   ReturnsRoute: typeof ReturnsRoute
   ReviewsRoute: typeof ReviewsRoute
@@ -628,6 +627,8 @@ export interface RootRouteChildren {
   CategorySlugRoute: typeof CategorySlugRoute
   OrderSuccessOrderNumberRoute: typeof OrderSuccessOrderNumberRoute
   ProductHandleRoute: typeof ProductHandleRoute
+  ProductsSlugRoute: typeof ProductsSlugRoute
+  ProductsIndexRoute: typeof ProductsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -728,13 +729,6 @@ declare module '@tanstack/react-router' {
       path: '/refund-policy'
       fullPath: '/refund-policy'
       preLoaderRoute: typeof RefundPolicyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/products': {
-      id: '/products'
-      path: '/products'
-      fullPath: '/products'
-      preLoaderRoute: typeof ProductsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -877,12 +871,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/products/': {
+      id: '/products/'
+      path: '/products'
+      fullPath: '/products/'
+      preLoaderRoute: typeof ProductsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/products/$slug': {
       id: '/products/$slug'
-      path: '/$slug'
+      path: '/products/$slug'
       fullPath: '/products/$slug'
       preLoaderRoute: typeof ProductsSlugRouteImport
-      parentRoute: typeof ProductsRoute
+      parentRoute: typeof rootRouteImport
     }
     '/product/$handle': {
       id: '/product/$handle'
@@ -1006,18 +1007,6 @@ const BlogRouteChildren: BlogRouteChildren = {
 
 const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
 
-interface ProductsRouteChildren {
-  ProductsSlugRoute: typeof ProductsSlugRoute
-}
-
-const ProductsRouteChildren: ProductsRouteChildren = {
-  ProductsSlugRoute: ProductsSlugRoute,
-}
-
-const ProductsRouteWithChildren = ProductsRoute._addFileChildren(
-  ProductsRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
@@ -1039,7 +1028,6 @@ const rootRouteChildren: RootRouteChildren = {
   MaterialsRoute: MaterialsRoute,
   PressRoute: PressRoute,
   PrivacyRoute: PrivacyRoute,
-  ProductsRoute: ProductsRouteWithChildren,
   RefundPolicyRoute: RefundPolicyRoute,
   ReturnsRoute: ReturnsRoute,
   ReviewsRoute: ReviewsRoute,
@@ -1057,6 +1045,8 @@ const rootRouteChildren: RootRouteChildren = {
   CategorySlugRoute: CategorySlugRoute,
   OrderSuccessOrderNumberRoute: OrderSuccessOrderNumberRoute,
   ProductHandleRoute: ProductHandleRoute,
+  ProductsSlugRoute: ProductsSlugRoute,
+  ProductsIndexRoute: ProductsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
