@@ -49,7 +49,7 @@ export const adminUpdateOrderStatus = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { error } = await supabaseAdmin.from("orders").update({ status: data.status }).eq("id", data.id);
+    const { error } = await supabaseAdmin.from("orders").update({ status: data.status as any }).eq("id", data.id);
     if (error) throw new Error(error.message);
     return { ok: true };
   });
