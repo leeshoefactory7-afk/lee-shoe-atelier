@@ -6,7 +6,7 @@ import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { ProductCard, Stars } from "@/components/site/ProductCard";
 import { formatPrice } from "@/lib/site-config";
 import { useCart, useWishlist } from "@/lib/cart-store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Heart, Minus, Plus, ShieldCheck, Truck, Undo2 } from "lucide-react";
 
@@ -58,21 +58,28 @@ export const Route = createFileRoute("/products/$slug")({
 
 function ProductDetail() {
   const data = Route.useLoaderData() as any;
-  const { product, reviews, related } = data as { product: any; reviews: any[]; related: any[] };
+  const { product, reviews, related, colorVariants } = data as { product: any; reviews: any[]; related: any[]; colorVariants: any[] };
+  const variants: Array<{ id?: string; name: string; hex?: string; images: string[] }> = (colorVariants ?? []).length
+    ? colorVariants
+    : (product.colors ?? []).map((n: string) => ({ name: n, images: [] }));
   const [size, setSize] = useState<string | undefined>(product.sizes?.[0]);
-  const [color, setColor] = useState<string | undefined>(product.colors?.[0]);
+  const [colorIdx, setColorIdx] = useState<number>(0);
+  const activeVariant = variants[colorIdx];
+  const galleryImages: string[] = (activeVariant?.images?.length ? activeVariant.images : (product.images ?? []));
   const [qty, setQty] = useState(1);
-  const [activeImg, setActiveImg] = useState(product.main_image ?? product.images?.[0] ?? "");
+  const [activeImg, setActiveImg] = useState<string>(galleryImages[0] ?? product.main_image ?? "");
+  useEffect(() => { setActiveImg(galleryImages[0] ?? product.main_image ?? ""); /* eslint-disable-next-line */ }, [colorIdx]);
   const add = useCart((s) => s.add);
   const wish = useWishlist();
   const navigate = useNavigate();
   const price = Number(product.discount_price ?? product.price);
   const avg = reviews.length ? reviews.reduce((s: number, r: any) => s + r.rating, 0) / reviews.length : 0;
+  const color = activeVariant?.name;
 
   function addToCart() {
     add({
       productId: product.id, slug: product.slug, name: product.name,
-      image: product.main_image ?? "", price, size, color, quantity: qty,
+      image: activeImg || product.main_image || "", price, size, color, quantity: qty,
     });
     toast.success("Added to cart");
   }
@@ -87,7 +94,7 @@ function ProductDetail() {
               {activeImg && <img src={activeImg} alt={product.name} className="h-full w-full object-cover" />}
             </div>
             <div className="grid grid-cols-4 gap-2 mt-2">
-              {(product.images ?? []).slice(0, 8).map((img: string) => (
+              {galleryImages.slice(0, 8).map((img: string) => (
                 <button key={img} onClick={() => setActiveImg(img)} className={`aspect-square overflow-hidden bg-muted ${activeImg === img ? "ring-2 ring-accent" : ""}`}>
                   <img src={img} alt="" className="h-full w-full object-cover" />
                 </button>
@@ -110,12 +117,15 @@ function ProductDetail() {
               )}
             </div>
             {product.short_description && <p className="mt-5 text-muted-foreground">{product.short_description}</p>}
-            {product.colors && product.colors.length > 0 && (
+            {variants.length > 0 && (
               <div className="mt-8">
                 <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-2">Color · {color}</div>
                 <div className="flex flex-wrap gap-2">
-                  {product.colors.map((c: string) => (
-                    <button key={c} onClick={() => setColor(c)} className={`px-4 py-2 border text-sm ${color === c ? "border-accent text-accent" : "border-input"}`}>{c}</button>
+                  {variants.map((v, i) => (
+                    <button key={i} onClick={() => setColorIdx(i)} className={`flex items-center gap-2 px-3 py-2 border text-sm ${colorIdx === i ? "border-accent text-accent" : "border-input"}`}>
+                      {v.hex && <span className="size-4 border border-border" style={{ background: v.hex }} />}
+                      {v.name}
+                    </button>
                   ))}
                 </div>
               </div>
