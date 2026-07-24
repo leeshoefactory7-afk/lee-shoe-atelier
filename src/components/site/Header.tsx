@@ -17,7 +17,6 @@ const NAV = [
 ];
 
 export function Header() {
-  const count = useCart((s) => s.items.reduce((n, i) => n + i.quantity, 0));
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [signedIn, setSignedIn] = useState<boolean | null>(null);
@@ -79,14 +78,7 @@ export function Header() {
             <Link to={signedIn ? "/account" : "/auth"} className="p-2 hover:text-accent" aria-label="Account">
               <User className="size-5" />
             </Link>
-            <Link to="/cart" className="p-2 hover:text-accent relative" aria-label="Cart">
-              <ShoppingBag className="size-5" />
-              {count > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] rounded-full bg-accent text-accent-foreground text-[10px] grid place-items-center px-1 font-medium">
-                  {count}
-                </span>
-              )}
-            </Link>
+            <ShopifyCartDrawer />
           </div>
         </div>
       </header>
