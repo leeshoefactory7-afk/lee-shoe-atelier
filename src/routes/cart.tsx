@@ -19,7 +19,7 @@ function CartPage() {
   const items = useCart((s) => s.items);
   const remove = useCart((s) => s.remove);
   const updateQty = useCart((s) => s.updateQty);
-  const subtotal = items.reduce((n, i) => n + i.price * i.quantity, 0);
+  const subtotal = items.reduce((n: number, i: any) => n + i.price * i.quantity, 0);
   const shipping = subtotal > 200 ? 0 : items.length ? 25 : 0;
 
   return (
@@ -34,7 +34,7 @@ function CartPage() {
         ) : (
           <div className="mt-10 grid md:grid-cols-[1.6fr_1fr] gap-14">
             <div className="divide-y divide-border">
-              {items.map((it) => (
+              {items.map((it: any) => (
                 <div key={`${it.productId}-${it.size}-${it.color}`} className="grid grid-cols-[100px_1fr_auto] gap-4 py-6 items-center">
                   <img src={it.image} alt={it.name} className="w-24 h-28 object-cover bg-muted" />
                   <div>
