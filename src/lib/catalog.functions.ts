@@ -80,6 +80,11 @@ export const getProductBySlug = createServerFn({ method: "GET" })
       .eq("status", "approved")
       .order("created_at", { ascending: false })
       .limit(20);
+    const { data: colorVariants } = await sb
+      .from("product_colors")
+      .select("*")
+      .eq("product_id", product.id)
+      .order("sort_order");
     const { data: related } = await sb
       .from("products")
       .select("id,slug,name,price,discount_price,main_image,brand")
@@ -87,7 +92,7 @@ export const getProductBySlug = createServerFn({ method: "GET" })
       .eq("category_id", product.category_id ?? "")
       .neq("id", product.id)
       .limit(4);
-    return { product, reviews: reviews ?? [], related: related ?? [] };
+    return { product, reviews: reviews ?? [], related: related ?? [], colorVariants: colorVariants ?? [] };
   });
 
 export const getCategoryBySlug = createServerFn({ method: "GET" })
