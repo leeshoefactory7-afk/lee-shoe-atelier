@@ -24,7 +24,7 @@ function Checkout() {
   const submit = useServerFn(submitOrder);
   const navigate = useNavigate();
   const [busy, setBusy] = useState(false);
-  const subtotal = items.reduce((n, i) => n + i.price * i.quantity, 0);
+  const subtotal = items.reduce((n: number, i: any) => n + i.price * i.quantity, 0);
   const shipping = subtotal > 200 ? 0 : items.length ? 25 : 0;
   const total = subtotal + shipping;
 
@@ -102,7 +102,7 @@ function Checkout() {
           <aside className="bg-muted/50 p-8 h-fit">
             <h2 className="font-serif text-2xl">Your order</h2>
             <div className="mt-6 space-y-4 max-h-80 overflow-auto">
-              {items.map((it) => (
+              {items.map((it: any) => (
                 <div key={`${it.productId}-${it.size}-${it.color}`} className="flex gap-3 text-sm">
                   <img src={it.image} alt="" className="w-14 h-16 object-cover" />
                   <div className="flex-1 min-w-0">

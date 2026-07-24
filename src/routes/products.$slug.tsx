@@ -67,7 +67,7 @@ function ProductDetail() {
   const wish = useWishlist();
   const navigate = useNavigate();
   const price = Number(product.discount_price ?? product.price);
-  const avg = reviews.length ? reviews.reduce((s, r) => s + r.rating, 0) / reviews.length : 0;
+  const avg = reviews.length ? reviews.reduce((s: number, r: any) => s + r.rating, 0) / reviews.length : 0;
 
   function addToCart() {
     add({
