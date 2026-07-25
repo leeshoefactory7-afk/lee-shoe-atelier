@@ -36,10 +36,10 @@ export function Header() {
   return (
     <>
       <div className="bg-primary text-primary-foreground text-xs">
-        <div className="container-lux flex h-9 items-center justify-between">
+        <div className="container-lux flex h-9 items-center justify-between gap-4 px-4 md:px-6">
           <span className="hidden sm:inline">Worldwide shipping · Factory-direct pricing · OEM & Private label</span>
-          <span className="sm:hidden">Worldwide shipping</span>
-          <a href={`mailto:${SITE.email}`} className="hover:text-accent transition-colors">{SITE.email}</a>
+          <span className="sm:hidden text-[11px]">Worldwide shipping</span>
+          <a href={`mailto:${SITE.email}`} className="hover:text-accent transition-colors ml-auto sm:ml-0">{SITE.email}</a>
         </div>
       </div>
       <header
@@ -47,12 +47,12 @@ export function Header() {
           scrolled ? "shadow-[var(--shadow-soft)]" : ""
         }`}
       >
-        <div className="container-lux flex items-center gap-3 md:gap-6 h-16 md:h-20">
-          <button className="md:hidden -ml-2 p-2" onClick={() => setOpen(true)} aria-label="Menu">
-            <Menu className="size-6" />
+        <div className="container-lux flex items-center gap-4 h-14 md:h-20 px-4 md:px-6">
+          <button className="md:hidden -ml-2 p-2.5 hover:bg-muted rounded transition-colors" onClick={() => setOpen(true)} aria-label="Menu">
+            <Menu className="size-5 md:size-6" />
           </button>
           <Link to="/" className="flex items-baseline gap-2 min-w-0">
-            <span className="font-serif text-2xl md:text-3xl tracking-tight truncate">Lee<span className="text-accent">.</span></span>
+            <span className="font-serif text-xl md:text-3xl tracking-tight truncate">Lee<span className="text-accent">.</span></span>
             <span className="hidden lg:inline text-[10px] uppercase tracking-[0.28em] text-muted-foreground">Shoe Factory</span>
           </Link>
           <nav className="hidden md:flex flex-1 items-center justify-center gap-5 lg:gap-7 min-w-0">
@@ -68,29 +68,36 @@ export function Header() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-0.5 sm:gap-1 md:gap-2 ml-auto">
-            <Link to="/products" className="p-2 hover:text-accent" aria-label="Search">
-              <Search className="size-5" />
+          <div className="flex items-center gap-2 md:gap-3 ml-auto">
+            <Link to="/products" className="p-2.5 hover:bg-muted rounded transition-colors" aria-label="Search">
+              <Search className="size-4 md:size-5" />
             </Link>
-            <Link to="/account/wishlist" className="p-2 hover:text-accent hidden sm:inline-flex" aria-label="Wishlist">
-              <Heart className="size-5" />
+            <Link to="/account/wishlist" className="p-2.5 hover:bg-muted rounded transition-colors hidden sm:inline-flex" aria-label="Wishlist">
+              <Heart className="size-4 md:size-5" />
             </Link>
-            <Link to={signedIn ? "/account" : "/auth"} className="p-2 hover:text-accent" aria-label="Account">
-              <User className="size-5" />
+            <Link to={signedIn ? "/account" : "/auth"} className="p-2.5 hover:bg-muted rounded transition-colors" aria-label="Account">
+              <User className="size-4 md:size-5" />
             </Link>
             <CartDrawer />
           </div>
         </div>
       </header>
       {open && (
-        <div className="fixed inset-0 z-50 bg-background md:hidden">
-          <div className="container-lux flex h-16 items-center justify-between">
-            <span className="font-serif text-2xl">Lee<span className="text-accent">.</span></span>
-            <button onClick={() => setOpen(false)} aria-label="Close"><X className="size-6" /></button>
+        <div className="fixed inset-0 z-50 bg-background md:hidden flex flex-col overflow-y-auto">
+          <div className="flex items-center justify-between h-14 px-4 border-b border-border flex-shrink-0">
+            <span className="font-serif text-xl">Lee<span className="text-accent">.</span></span>
+            <button onClick={() => setOpen(false)} className="p-2.5 hover:bg-muted rounded transition-colors" aria-label="Close">
+              <X className="size-5" />
+            </button>
           </div>
-          <nav className="container-lux flex flex-col gap-1 pt-6">
+          <nav className="flex flex-col gap-0 flex-1 pt-2 px-2">
             {NAV.map((n) => (
-              <Link key={n.to} to={n.to} onClick={() => setOpen(false)} className="py-3 border-b border-border font-serif text-2xl">
+              <Link
+                key={n.to}
+                to={n.to}
+                onClick={() => setOpen(false)}
+                className="py-4 px-4 border-b border-border font-serif text-lg hover:bg-muted transition-colors"
+              >
                 {n.label}
               </Link>
             ))}

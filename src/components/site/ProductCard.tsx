@@ -37,14 +37,14 @@ export function ProductCard({ p }: { p: Product }) {
           {p.is_limited && <span className="bg-primary text-primary-foreground text-[10px] uppercase tracking-widest px-2 py-1">Limited</span>}
         </div>
       </div>
-      <div className="pt-4 space-y-1">
-        {p.brand && <div className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">{p.brand}</div>}
-        <h3 className="font-serif text-lg leading-tight group-hover:text-accent transition-colors">{p.name}</h3>
-        <div className="flex items-center gap-2">
+      <div className="pt-3 md:pt-4 space-y-1">
+        {p.brand && <div className="text-[9px] md:text-[11px] uppercase tracking-[0.2em] text-muted-foreground">{p.brand}</div>}
+        <h3 className="font-serif text-base md:text-lg leading-tight group-hover:text-accent transition-colors line-clamp-2">{p.name}</h3>
+        <div className="flex items-center gap-2 text-sm md:text-base">
           {hasDiscount ? (
             <>
               <span className="text-foreground font-medium">{formatPrice(p.discount_price!)}</span>
-              <span className="text-muted-foreground line-through text-sm">{formatPrice(p.price)}</span>
+              <span className="text-muted-foreground line-through text-xs md:text-sm">{formatPrice(p.price)}</span>
             </>
           ) : (
             <span className="text-foreground font-medium">{formatPrice(p.price)}</span>

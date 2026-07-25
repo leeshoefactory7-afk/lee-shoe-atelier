@@ -42,21 +42,21 @@ function GalleryAdmin() {
 
   return (
     <div>
-      <div className="flex justify-between items-center">
-        <h1 className="font-serif text-4xl">Gallery</h1>
-        <button disabled={busy} onClick={() => inputRef.current?.click()} className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 text-sm disabled:opacity-60">
-          <Upload className="size-4" /> {busy ? "Uploading…" : "Upload"}
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+        <h1 className="font-serif text-2xl md:text-4xl">Gallery</h1>
+        <button disabled={busy} onClick={() => inputRef.current?.click()} className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-4 py-2 text-xs md:text-sm rounded whitespace-nowrap hover:bg-primary/90 disabled:opacity-60 transition-colors">
+          <Upload className="size-4" /> <span className="hidden sm:inline">{busy ? "Uploading…" : "Upload"}</span><span className="sm:hidden">{busy ? "..." : "Upload"}</span>
         </button>
         <input ref={inputRef} type="file" accept="image/*" multiple hidden onChange={(e) => e.target.files && onFiles(e.target.files)} />
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-4 mt-6 md:mt-8">
         {rows.map((g) => (
-          <div key={g.id} className="relative aspect-square bg-muted">
+          <div key={g.id} className="relative aspect-square bg-muted group rounded-lg overflow-hidden hover:shadow-md transition-all">
             <img src={g.image_url} alt={g.caption ?? ""} className="w-full h-full object-cover" />
-            <button onClick={async () => { if (confirm("Delete image?")) { await del({ data: { id: g.id } }); reload(); } }} className="absolute top-2 right-2 bg-background/90 p-2 hover:bg-background"><Trash2 className="size-4" /></button>
+            <button onClick={async () => { if (confirm("Delete image?")) { await del({ data: { id: g.id } }); reload(); } }} className="absolute top-1.5 md:top-2 right-1.5 md:right-2 bg-background/90 p-1.5 md:p-2 hover:bg-background rounded opacity-0 group-hover:opacity-100 transition-opacity"><Trash2 className="size-4" /></button>
           </div>
         ))}
-        {rows.length === 0 && <div className="col-span-full text-center text-muted-foreground py-8">No images yet.</div>}
+        {rows.length === 0 && <div className="col-span-full text-center text-muted-foreground py-8 text-xs md:text-sm">No images yet.</div>}
       </div>
     </div>
   );

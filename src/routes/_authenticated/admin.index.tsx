@@ -16,8 +16,8 @@ function Dashboard() {
     fetchStats().then(setStats).catch((e) => setErr(e.message));
   }, [fetchStats]);
 
-  if (err) return <div className="text-destructive">{err} — you may not have admin access.</div>;
-  if (!stats) return <div className="text-muted-foreground">Loading…</div>;
+  if (err) return <div className="text-destructive text-xs md:text-sm">{err} — you may not have admin access.</div>;
+  if (!stats) return <div className="text-muted-foreground text-xs md:text-sm">Loading…</div>;
 
   const cards = [
     { label: "Revenue", value: formatPrice(stats.revenue) },
@@ -29,12 +29,12 @@ function Dashboard() {
   ];
   return (
     <div>
-      <h1 className="font-serif text-4xl">Dashboard</h1>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-8">
+      <h1 className="font-serif text-2xl md:text-4xl">Dashboard</h1>
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 mt-6 md:mt-8">
         {cards.map((c) => (
-          <div key={c.label} className="border border-border p-6">
-            <div className="text-xs uppercase tracking-widest text-muted-foreground">{c.label}</div>
-            <div className="font-serif text-3xl mt-2">{c.value}</div>
+          <div key={c.label} className="border border-border p-3 md:p-6 rounded-lg hover:border-accent/50 hover:shadow-sm transition-all">
+            <div className="text-[10px] md:text-xs uppercase tracking-widest text-muted-foreground">{c.label}</div>
+            <div className="font-serif text-xl md:text-3xl mt-2 truncate">{c.value}</div>
           </div>
         ))}
       </div>

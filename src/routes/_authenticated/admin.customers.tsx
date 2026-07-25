@@ -24,24 +24,43 @@ function CustomersAdmin() {
 
   return (
     <div>
-      <h1 className="font-serif text-4xl">Customers</h1>
-      <div className="mt-8 border border-border overflow-x-auto">
-        <div className="overflow-x-auto -mx-4 sm:mx-0"><table className="w-full text-sm min-w-[640px]">
-          <thead className="bg-muted text-xs uppercase tracking-widest">
-            <tr><th className="p-3 text-left">Name</th><th className="p-3 text-left">Email</th><th className="p-3 text-left">Roles</th><th className="p-3 text-left">Joined</th><th></th></tr>
-          </thead>
-          <tbody className="divide-y divide-border">
-            {rows.map((u) => (
-              <tr key={u.id}>
-                <td className="p-3">{u.full_name ?? "—"}</td>
-                <td className="p-3 text-muted-foreground">{u.email ?? "—"}</td>
-                <td className="p-3">{u.roles.join(", ") || "customer"}</td>
-                <td className="p-3">{new Date(u.created_at).toLocaleDateString()}</td>
-                <td className="p-3 text-right"><button onClick={() => toggleAdmin(u)} className="text-xs border border-input px-3 py-1 hover:border-accent">{u.roles.includes("admin") ? "Revoke admin" : "Make admin"}</button></td>
+      <h1 className="font-serif text-2xl md:text-4xl">Customers</h1>
+      <div className="mt-6 md:mt-8 border border-border rounded-lg overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-xs md:text-sm">
+            <thead className="bg-muted text-xs uppercase tracking-widest sticky top-0">
+              <tr>
+                <th className="p-2 md:p-3 text-left whitespace-nowrap">Name</th>
+                <th className="p-2 md:p-3 text-left whitespace-nowrap hidden sm:table-cell">Email</th>
+                <th className="p-2 md:p-3 text-left whitespace-nowrap hidden md:table-cell">Roles</th>
+                <th className="p-2 md:p-3 text-left whitespace-nowrap">Joined</th>
+                <th className="p-2 md:p-3 text-right whitespace-nowrap">Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table></div>
+            </thead>
+            <tbody className="divide-y divide-border">
+              {rows.map((u) => (
+                <tr key={u.id} className="hover:bg-muted/50 transition-colors">
+                  <td className="p-2 md:p-3 text-xs md:text-sm">{u.full_name ?? "—"}</td>
+                  <td className="p-2 md:p-3 text-muted-foreground text-xs md:text-sm hidden sm:table-cell truncate">{u.email ?? "—"}</td>
+                  <td className="p-2 md:p-3 hidden md:table-cell text-xs md:text-sm">{u.roles.join(", ") || "customer"}</td>
+                  <td className="p-2 md:p-3 text-xs md:text-sm">{new Date(u.created_at).toLocaleDateString()}</td>
+                  <td className="p-2 md:p-3 text-right">
+                    <button onClick={() => toggleAdmin(u)} className="text-[10px] md:text-xs border border-input px-2 md:px-3 py-1 rounded hover:border-accent hover:bg-muted/50 transition-colors whitespace-nowrap">
+                      {u.roles.includes("admin") ? "Revoke" : "Make admin"}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+              {rows.length === 0 && (
+                <tr>
+                  <td colSpan={5} className="p-6 text-center text-muted-foreground text-xs md:text-sm">
+                    No customers yet.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

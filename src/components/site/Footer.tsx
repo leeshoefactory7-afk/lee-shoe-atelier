@@ -58,20 +58,20 @@ export function Footer() {
   const subscribe = useServerFn(subscribeNewsletter);
   return (
     <footer className="bg-primary text-primary-foreground mt-24">
-      <div className="container-lux py-16">
-        <div className="grid gap-12 md:grid-cols-[1.2fr_2.5fr]">
+      <div className="container-lux py-12 md:py-16 px-4 md:px-6">
+        <div className="grid gap-8 md:gap-12 md:grid-cols-[1.2fr_2.5fr]">
           <div>
-            <div className="font-serif text-3xl">Lee<span className="text-accent">.</span> Shoe Factory</div>
-            <p className="text-sm text-primary-foreground/70 mt-4 max-w-sm">
+            <div className="font-serif text-2xl md:text-3xl">Lee<span className="text-accent">.</span> Shoe Factory</div>
+            <p className="text-xs md:text-sm text-primary-foreground/70 mt-4 max-w-sm">
               A premium global footwear manufacturer supplying retailers, brands and distributors in {SITE.stats.countriesServed}+ countries.
             </p>
-            <div className="mt-6 space-y-2 text-sm text-primary-foreground/80">
-              <div className="flex items-center gap-2"><Mail className="size-4 text-accent" /> {SITE.email}</div>
-              <div className="flex items-center gap-2"><Phone className="size-4 text-accent" /> {SITE.whatsapp}</div>
-              <div className="flex items-center gap-2"><MapPin className="size-4 text-accent" /> {SITE.address}</div>
+            <div className="mt-6 space-y-3 text-xs md:text-sm text-primary-foreground/80">
+              <a href={`mailto:${SITE.email}`} className="flex items-center gap-2 hover:text-accent transition-colors"><Mail className="size-4 text-accent flex-shrink-0" /> <span className="break-all">{SITE.email}</span></a>
+              <a href={`tel:${SITE.whatsapp}`} className="flex items-center gap-2 hover:text-accent transition-colors"><Phone className="size-4 text-accent flex-shrink-0" /> {SITE.whatsapp}</a>
+              <div className="flex items-start gap-2"><MapPin className="size-4 text-accent flex-shrink-0 mt-0.5" /> <span>{SITE.address}</span></div>
             </div>
             <form
-              className="mt-6 flex max-w-sm"
+              className="mt-6 flex flex-col sm:flex-row gap-2 w-full sm:max-w-sm"
               onSubmit={async (e) => {
                 e.preventDefault();
                 const fd = new FormData(e.currentTarget);
@@ -84,36 +84,38 @@ export function Footer() {
                 } catch { toast.error("Subscription failed"); }
               }}
             >
-              <input name="email" type="email" placeholder="Your email" className="flex-1 bg-transparent border border-primary-foreground/20 px-4 py-2.5 text-sm placeholder:text-primary-foreground/40 focus:outline-none focus:border-accent" />
-              <button className="bg-accent text-accent-foreground px-4 text-sm font-medium hover:bg-accent/90">Subscribe</button>
+              <input name="email" type="email" placeholder="Your email" className="flex-1 bg-transparent border border-primary-foreground/20 px-3 py-2.5 text-xs md:text-sm placeholder:text-primary-foreground/40 focus:outline-none focus:border-accent rounded" />
+              <button className="bg-accent text-accent-foreground px-4 py-2.5 text-xs md:text-sm font-medium hover:bg-accent/90 whitespace-nowrap rounded">Subscribe</button>
             </form>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 md:gap-8">
             {cols.map((c) => (
               <div key={c.title}>
-                <h4 className="text-xs uppercase tracking-[0.2em] text-accent mb-4 font-sans">{c.title}</h4>
-                <ul className="space-y-2 text-sm text-primary-foreground/70">
+                <h4 className="text-xs uppercase tracking-[0.2em] text-accent mb-3 md:mb-4 font-sans">{c.title}</h4>
+                <ul className="space-y-2 text-xs md:text-sm text-primary-foreground/70">
                   {c.links.map((l) => (
-                    <li key={l.to}><Link to={l.to} className="hover:text-accent transition-colors">{l.label}</Link></li>
+                    <li key={l.to}><Link to={l.to} className="hover:text-accent transition-colors line-clamp-2">{l.label}</Link></li>
                   ))}
                 </ul>
               </div>
             ))}
           </div>
         </div>
-        <div className="mt-14 pt-8 border-t border-primary-foreground/10 flex flex-wrap items-center justify-between gap-4 text-xs text-primary-foreground/60">
-          <div>© {new Date().getFullYear()} Lee Shoe Factory. All rights reserved.</div>
-          <div className="flex gap-4">
-            <Link to="/privacy" className="hover:text-accent">Privacy</Link>
-            <Link to="/terms" className="hover:text-accent">Terms</Link>
-            <Link to="/cookies" className="hover:text-accent">Cookies</Link>
-            <Link to="/refund-policy" className="hover:text-accent">Refund</Link>
-          </div>
-          <div className="flex gap-3">
-            <a href={SITE.social.instagram} aria-label="Instagram" className="hover:text-accent"><Instagram className="size-4" /></a>
-            <a href={SITE.social.facebook} aria-label="Facebook" className="hover:text-accent"><Facebook className="size-4" /></a>
-            <a href={SITE.social.linkedin} aria-label="LinkedIn" className="hover:text-accent"><Linkedin className="size-4" /></a>
-            <a href={SITE.social.twitter} aria-label="Twitter" className="hover:text-accent"><Twitter className="size-4" /></a>
+        <div className="mt-8 md:mt-14 pt-6 md:pt-8 border-t border-primary-foreground/10 space-y-4">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-xs text-primary-foreground/60">
+            <div className="order-2 md:order-1">© {new Date().getFullYear()} Lee Shoe Factory. All rights reserved.</div>
+            <div className="order-3 md:order-2 flex flex-wrap gap-4">
+              <Link to="/privacy" className="hover:text-accent transition-colors">Privacy</Link>
+              <Link to="/terms" className="hover:text-accent transition-colors">Terms</Link>
+              <Link to="/cookies" className="hover:text-accent transition-colors">Cookies</Link>
+              <Link to="/refund-policy" className="hover:text-accent transition-colors">Refund</Link>
+            </div>
+            <div className="order-1 md:order-3 flex gap-4">
+              <a href={SITE.social.instagram} aria-label="Instagram" className="hover:text-accent transition-colors p-1"><Instagram className="size-4" /></a>
+              <a href={SITE.social.facebook} aria-label="Facebook" className="hover:text-accent transition-colors p-1"><Facebook className="size-4" /></a>
+              <a href={SITE.social.linkedin} aria-label="LinkedIn" className="hover:text-accent transition-colors p-1"><Linkedin className="size-4" /></a>
+              <a href={SITE.social.twitter} aria-label="Twitter" className="hover:text-accent transition-colors p-1"><Twitter className="size-4" /></a>
+            </div>
           </div>
         </div>
       </div>
