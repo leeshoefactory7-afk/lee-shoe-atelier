@@ -68,7 +68,7 @@ export function Header() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-1 md:gap-2 justify-self-end">
+          <div className="flex items-center gap-0.5 sm:gap-1 md:gap-2 ml-auto">
             <Link to="/products" className="p-2 hover:text-accent" aria-label="Search">
               <Search className="size-5" />
             </Link>
