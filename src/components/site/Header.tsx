@@ -47,27 +47,28 @@ export function Header() {
           scrolled ? "shadow-[var(--shadow-soft)]" : ""
         }`}
       >
-        <div className="container-lux grid grid-cols-[auto_1fr_auto] items-center gap-4 h-16 md:h-20">
-          <button className="md:hidden" onClick={() => setOpen(true)} aria-label="Menu">
+        <div className="container-lux flex items-center gap-3 md:gap-6 h-16 md:h-20">
+          <button className="md:hidden -ml-2 p-2" onClick={() => setOpen(true)} aria-label="Menu">
             <Menu className="size-6" />
           </button>
-          <Link to="/" className="justify-self-center md:justify-self-start flex items-baseline gap-2">
-            <span className="font-serif text-2xl md:text-3xl tracking-tight">Lee<span className="text-accent">.</span></span>
-            <span className="hidden md:inline text-[10px] uppercase tracking-[0.28em] text-muted-foreground">Shoe Factory</span>
+          <Link to="/" className="flex items-baseline gap-2 min-w-0">
+            <span className="font-serif text-2xl md:text-3xl tracking-tight truncate">Lee<span className="text-accent">.</span></span>
+            <span className="hidden lg:inline text-[10px] uppercase tracking-[0.28em] text-muted-foreground">Shoe Factory</span>
           </Link>
-          <nav className="hidden md:flex items-center gap-7 justify-self-center absolute left-1/2 -translate-x-1/2">
+          <nav className="hidden md:flex flex-1 items-center justify-center gap-5 lg:gap-7 min-w-0">
             {NAV.map((n) => (
               <Link
                 key={n.to}
                 to={n.to}
-                className="text-sm tracking-wide text-foreground/80 hover:text-foreground transition-colors [&.active]:text-accent"
+                className="text-sm tracking-wide text-foreground/80 hover:text-foreground transition-colors [&.active]:text-accent whitespace-nowrap"
                 activeProps={{ className: "active" }}
               >
                 {n.label}
               </Link>
             ))}
           </nav>
-          <div className="flex items-center gap-1 md:gap-2 justify-self-end">
+
+          <div className="flex items-center gap-0.5 sm:gap-1 md:gap-2 ml-auto">
             <Link to="/products" className="p-2 hover:text-accent" aria-label="Search">
               <Search className="size-5" />
             </Link>

@@ -32,7 +32,7 @@ function ProductsAdmin() {
         </Link>
       </div>
       <div className="mt-8 border border-border overflow-x-auto">
-        <table className="w-full text-sm">
+        <div className="overflow-x-auto -mx-4 sm:mx-0"><table className="w-full text-sm min-w-[640px]">
           <thead className="bg-muted text-xs uppercase tracking-widest">
             <tr><th className="p-3 text-left">Product</th><th className="p-3 text-left">Brand</th><th className="p-3 text-left">Price</th><th className="p-3 text-left">Stock</th><th className="p-3 text-left">Status</th><th className="p-3"></th></tr>
           </thead>
@@ -57,7 +57,7 @@ function ProductsAdmin() {
             ))}
             {rows.length === 0 && <tr><td colSpan={6} className="p-8 text-center text-muted-foreground">No products yet. Create your first one.</td></tr>}
           </tbody>
-        </table>
+        </table></div>
       </div>
     </div>
   );
