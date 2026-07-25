@@ -170,12 +170,10 @@ export function ProductForm({ product, colors: initialColors }: { product?: any;
         <button disabled={busy} className="bg-primary text-primary-foreground px-6 py-3 text-sm disabled:opacity-60">{busy ? "Saving…" : "Save product"}</button>
         <button type="button" onClick={() => navigate({ to: "/admin/products" })} className="border border-input px-6 py-3 text-sm">Cancel</button>
       </div>
-
-      <style>{`.input { width: 100%; border: 1px solid hsl(var(--input)); background: hsl(var(--background)); padding: 0.5rem 0.75rem; font-size: 0.875rem; }
-        .input:focus { outline: none; border-color: hsl(var(--accent)); }`}</style>
     </form>
   );
 }
+
 
 function Section({ title, children }: any) {
   return <div><h2 className="font-serif text-2xl mb-4">{title}</h2>{children}</div>;
