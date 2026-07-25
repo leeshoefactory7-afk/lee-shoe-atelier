@@ -27,7 +27,7 @@ function OrdersAdmin() {
     <div>
       <h1 className="font-serif text-4xl">Orders</h1>
       <div className="mt-8 border border-border overflow-x-auto">
-        <table className="w-full text-sm">
+        <div className="overflow-x-auto -mx-4 sm:mx-0"><table className="w-full text-sm min-w-[640px]">
           <thead className="bg-muted text-xs uppercase tracking-widest">
             <tr><th className="p-3 text-left">Order</th><th className="p-3 text-left">Customer</th><th className="p-3 text-left">Total</th><th className="p-3 text-left">Date</th><th className="p-3 text-left">Status</th></tr>
           </thead>
@@ -46,7 +46,7 @@ function OrdersAdmin() {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table></div>
       </div>
     </div>
   );
