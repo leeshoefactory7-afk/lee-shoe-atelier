@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { useInView } from "react-intersection-observer";
+import { useEffect, useRef, useState } from "react";
 
 interface AnimatedCounterProps {
   value: number | string;
@@ -9,12 +8,34 @@ interface AnimatedCounterProps {
 
 export function AnimatedCounter({ value, label, duration = 2 }: AnimatedCounterProps) {
   const [displayValue, setDisplayValue] = useState(0);
-  const { ref, inView } = useInView({ threshold: 0.5, triggerOnce: true });
+  const [hasStarted, setHasStarted] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   const numValue = typeof value === "string" ? parseInt(value) : value;
 
   useEffect(() => {
-    if (!inView) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasStarted) {
+          setHasStarted(true);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, [hasStarted]);
+
+  useEffect(() => {
+    if (!hasStarted) return;
 
     let startTime: number;
     let animationId: number;
@@ -34,7 +55,7 @@ export function AnimatedCounter({ value, label, duration = 2 }: AnimatedCounterP
     animationId = requestAnimationFrame(animate);
 
     return () => cancelAnimationFrame(animationId);
-  }, [inView, numValue, duration]);
+  }, [hasStarted, numValue, duration]);
 
   return (
     <div ref={ref} className="text-center animate-fade-in-up">

@@ -15,21 +15,27 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AccessibilityRouteImport } from './routes/accessibility'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as BecomeDistributorRouteImport } from './routes/become-distributor'
 import { Route as BlogRouteImport } from './routes/blog'
+import { Route as BulkOrdersRouteImport } from './routes/bulk-orders'
 import { Route as CareGuideRouteImport } from './routes/care-guide'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CookiesRouteImport } from './routes/cookies'
+import { Route as FactoryTourRouteImport } from './routes/factory-tour'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as GiftCardsRouteImport } from './routes/gift-cards'
 import { Route as ManufacturingRouteImport } from './routes/manufacturing'
 import { Route as MaterialsRouteImport } from './routes/materials'
+import { Route as OemRouteImport } from './routes/oem'
 import { Route as PressRouteImport } from './routes/press'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as PrivateLabelRouteImport } from './routes/private-label'
 import { Route as RefundPolicyRouteImport } from './routes/refund-policy'
+import { Route as RequestQuoteRouteImport } from './routes/request-quote'
 import { Route as ReturnsRouteImport } from './routes/returns'
 import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as ShippingRouteImport } from './routes/shipping'
@@ -89,9 +95,19 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BecomeDistributorRoute = BecomeDistributorRouteImport.update({
+  id: '/become-distributor',
+  path: '/become-distributor',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogRoute = BlogRouteImport.update({
   id: '/blog',
   path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BulkOrdersRoute = BulkOrdersRouteImport.update({
+  id: '/bulk-orders',
+  path: '/bulk-orders',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CareGuideRoute = CareGuideRouteImport.update({
@@ -124,6 +140,11 @@ const CookiesRoute = CookiesRouteImport.update({
   path: '/cookies',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FactoryTourRoute = FactoryTourRouteImport.update({
+  id: '/factory-tour',
+  path: '/factory-tour',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FaqRoute = FaqRouteImport.update({
   id: '/faq',
   path: '/faq',
@@ -149,6 +170,11 @@ const MaterialsRoute = MaterialsRouteImport.update({
   path: '/materials',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OemRoute = OemRouteImport.update({
+  id: '/oem',
+  path: '/oem',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PressRoute = PressRouteImport.update({
   id: '/press',
   path: '/press',
@@ -159,9 +185,19 @@ const PrivacyRoute = PrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivateLabelRoute = PrivateLabelRouteImport.update({
+  id: '/private-label',
+  path: '/private-label',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RefundPolicyRoute = RefundPolicyRouteImport.update({
   id: '/refund-policy',
   path: '/refund-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RequestQuoteRoute = RequestQuoteRouteImport.update({
+  id: '/request-quote',
+  path: '/request-quote',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ReturnsRoute = ReturnsRouteImport.update({
@@ -324,21 +360,27 @@ export interface FileRoutesByFullPath {
   '/accessibility': typeof AccessibilityRoute
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
+  '/become-distributor': typeof BecomeDistributorRoute
   '/blog': typeof BlogRouteWithChildren
+  '/bulk-orders': typeof BulkOrdersRoute
   '/care-guide': typeof CareGuideRoute
   '/careers': typeof CareersRoute
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/cookies': typeof CookiesRoute
+  '/factory-tour': typeof FactoryTourRoute
   '/faq': typeof FaqRoute
   '/gallery': typeof GalleryRoute
   '/gift-cards': typeof GiftCardsRoute
   '/manufacturing': typeof ManufacturingRoute
   '/materials': typeof MaterialsRoute
+  '/oem': typeof OemRoute
   '/press': typeof PressRoute
   '/privacy': typeof PrivacyRoute
+  '/private-label': typeof PrivateLabelRoute
   '/refund-policy': typeof RefundPolicyRoute
+  '/request-quote': typeof RequestQuoteRoute
   '/returns': typeof ReturnsRoute
   '/reviews': typeof ReviewsRoute
   '/shipping': typeof ShippingRoute
@@ -375,21 +417,27 @@ export interface FileRoutesByTo {
   '/accessibility': typeof AccessibilityRoute
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
+  '/become-distributor': typeof BecomeDistributorRoute
   '/blog': typeof BlogRouteWithChildren
+  '/bulk-orders': typeof BulkOrdersRoute
   '/care-guide': typeof CareGuideRoute
   '/careers': typeof CareersRoute
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/cookies': typeof CookiesRoute
+  '/factory-tour': typeof FactoryTourRoute
   '/faq': typeof FaqRoute
   '/gallery': typeof GalleryRoute
   '/gift-cards': typeof GiftCardsRoute
   '/manufacturing': typeof ManufacturingRoute
   '/materials': typeof MaterialsRoute
+  '/oem': typeof OemRoute
   '/press': typeof PressRoute
   '/privacy': typeof PrivacyRoute
+  '/private-label': typeof PrivateLabelRoute
   '/refund-policy': typeof RefundPolicyRoute
+  '/request-quote': typeof RequestQuoteRoute
   '/returns': typeof ReturnsRoute
   '/reviews': typeof ReviewsRoute
   '/shipping': typeof ShippingRoute
@@ -427,21 +475,27 @@ export interface FileRoutesById {
   '/accessibility': typeof AccessibilityRoute
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
+  '/become-distributor': typeof BecomeDistributorRoute
   '/blog': typeof BlogRouteWithChildren
+  '/bulk-orders': typeof BulkOrdersRoute
   '/care-guide': typeof CareGuideRoute
   '/careers': typeof CareersRoute
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/cookies': typeof CookiesRoute
+  '/factory-tour': typeof FactoryTourRoute
   '/faq': typeof FaqRoute
   '/gallery': typeof GalleryRoute
   '/gift-cards': typeof GiftCardsRoute
   '/manufacturing': typeof ManufacturingRoute
   '/materials': typeof MaterialsRoute
+  '/oem': typeof OemRoute
   '/press': typeof PressRoute
   '/privacy': typeof PrivacyRoute
+  '/private-label': typeof PrivateLabelRoute
   '/refund-policy': typeof RefundPolicyRoute
+  '/request-quote': typeof RequestQuoteRoute
   '/returns': typeof ReturnsRoute
   '/reviews': typeof ReviewsRoute
   '/shipping': typeof ShippingRoute
@@ -480,21 +534,27 @@ export interface FileRouteTypes {
     | '/accessibility'
     | '/account'
     | '/auth'
+    | '/become-distributor'
     | '/blog'
+    | '/bulk-orders'
     | '/care-guide'
     | '/careers'
     | '/cart'
     | '/checkout'
     | '/contact'
     | '/cookies'
+    | '/factory-tour'
     | '/faq'
     | '/gallery'
     | '/gift-cards'
     | '/manufacturing'
     | '/materials'
+    | '/oem'
     | '/press'
     | '/privacy'
+    | '/private-label'
     | '/refund-policy'
+    | '/request-quote'
     | '/returns'
     | '/reviews'
     | '/shipping'
@@ -531,21 +591,27 @@ export interface FileRouteTypes {
     | '/accessibility'
     | '/account'
     | '/auth'
+    | '/become-distributor'
     | '/blog'
+    | '/bulk-orders'
     | '/care-guide'
     | '/careers'
     | '/cart'
     | '/checkout'
     | '/contact'
     | '/cookies'
+    | '/factory-tour'
     | '/faq'
     | '/gallery'
     | '/gift-cards'
     | '/manufacturing'
     | '/materials'
+    | '/oem'
     | '/press'
     | '/privacy'
+    | '/private-label'
     | '/refund-policy'
+    | '/request-quote'
     | '/returns'
     | '/reviews'
     | '/shipping'
@@ -582,21 +648,27 @@ export interface FileRouteTypes {
     | '/accessibility'
     | '/account'
     | '/auth'
+    | '/become-distributor'
     | '/blog'
+    | '/bulk-orders'
     | '/care-guide'
     | '/careers'
     | '/cart'
     | '/checkout'
     | '/contact'
     | '/cookies'
+    | '/factory-tour'
     | '/faq'
     | '/gallery'
     | '/gift-cards'
     | '/manufacturing'
     | '/materials'
+    | '/oem'
     | '/press'
     | '/privacy'
+    | '/private-label'
     | '/refund-policy'
+    | '/request-quote'
     | '/returns'
     | '/reviews'
     | '/shipping'
@@ -635,21 +707,27 @@ export interface RootRouteChildren {
   AccessibilityRoute: typeof AccessibilityRoute
   AccountRoute: typeof AccountRoute
   AuthRoute: typeof AuthRoute
+  BecomeDistributorRoute: typeof BecomeDistributorRoute
   BlogRoute: typeof BlogRouteWithChildren
+  BulkOrdersRoute: typeof BulkOrdersRoute
   CareGuideRoute: typeof CareGuideRoute
   CareersRoute: typeof CareersRoute
   CartRoute: typeof CartRoute
   CheckoutRoute: typeof CheckoutRoute
   ContactRoute: typeof ContactRoute
   CookiesRoute: typeof CookiesRoute
+  FactoryTourRoute: typeof FactoryTourRoute
   FaqRoute: typeof FaqRoute
   GalleryRoute: typeof GalleryRoute
   GiftCardsRoute: typeof GiftCardsRoute
   ManufacturingRoute: typeof ManufacturingRoute
   MaterialsRoute: typeof MaterialsRoute
+  OemRoute: typeof OemRoute
   PressRoute: typeof PressRoute
   PrivacyRoute: typeof PrivacyRoute
+  PrivateLabelRoute: typeof PrivateLabelRoute
   RefundPolicyRoute: typeof RefundPolicyRoute
+  RequestQuoteRoute: typeof RequestQuoteRoute
   ReturnsRoute: typeof ReturnsRoute
   ReviewsRoute: typeof ReviewsRoute
   ShippingRoute: typeof ShippingRoute
@@ -713,11 +791,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/become-distributor': {
+      id: '/become-distributor'
+      path: '/become-distributor'
+      fullPath: '/become-distributor'
+      preLoaderRoute: typeof BecomeDistributorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog': {
       id: '/blog'
       path: '/blog'
       fullPath: '/blog'
       preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bulk-orders': {
+      id: '/bulk-orders'
+      path: '/bulk-orders'
+      fullPath: '/bulk-orders'
+      preLoaderRoute: typeof BulkOrdersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/care-guide': {
@@ -762,6 +854,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CookiesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/factory-tour': {
+      id: '/factory-tour'
+      path: '/factory-tour'
+      fullPath: '/factory-tour'
+      preLoaderRoute: typeof FactoryTourRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/faq': {
       id: '/faq'
       path: '/faq'
@@ -797,6 +896,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MaterialsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/oem': {
+      id: '/oem'
+      path: '/oem'
+      fullPath: '/oem'
+      preLoaderRoute: typeof OemRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/press': {
       id: '/press'
       path: '/press'
@@ -811,11 +917,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/private-label': {
+      id: '/private-label'
+      path: '/private-label'
+      fullPath: '/private-label'
+      preLoaderRoute: typeof PrivateLabelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/refund-policy': {
       id: '/refund-policy'
       path: '/refund-policy'
       fullPath: '/refund-policy'
       preLoaderRoute: typeof RefundPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/request-quote': {
+      id: '/request-quote'
+      path: '/request-quote'
+      fullPath: '/request-quote'
+      preLoaderRoute: typeof RequestQuoteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/returns': {
@@ -1081,21 +1201,27 @@ const rootRouteChildren: RootRouteChildren = {
   AccessibilityRoute: AccessibilityRoute,
   AccountRoute: AccountRoute,
   AuthRoute: AuthRoute,
+  BecomeDistributorRoute: BecomeDistributorRoute,
   BlogRoute: BlogRouteWithChildren,
+  BulkOrdersRoute: BulkOrdersRoute,
   CareGuideRoute: CareGuideRoute,
   CareersRoute: CareersRoute,
   CartRoute: CartRoute,
   CheckoutRoute: CheckoutRoute,
   ContactRoute: ContactRoute,
   CookiesRoute: CookiesRoute,
+  FactoryTourRoute: FactoryTourRoute,
   FaqRoute: FaqRoute,
   GalleryRoute: GalleryRoute,
   GiftCardsRoute: GiftCardsRoute,
   ManufacturingRoute: ManufacturingRoute,
   MaterialsRoute: MaterialsRoute,
+  OemRoute: OemRoute,
   PressRoute: PressRoute,
   PrivacyRoute: PrivacyRoute,
+  PrivateLabelRoute: PrivateLabelRoute,
   RefundPolicyRoute: RefundPolicyRoute,
+  RequestQuoteRoute: RequestQuoteRoute,
   ReturnsRoute: ReturnsRoute,
   ReviewsRoute: ReviewsRoute,
   ShippingRoute: ShippingRoute,
