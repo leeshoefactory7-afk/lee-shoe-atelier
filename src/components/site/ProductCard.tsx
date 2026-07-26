@@ -16,6 +16,7 @@ type Product = {
   is_bestseller?: boolean | null;
   is_limited?: boolean | null;
   short_description?: string | null;
+  min_order_qty?: number | null;
 };
 
 export function ProductCard({ p }: { p: Product }) {
@@ -50,6 +51,9 @@ export function ProductCard({ p }: { p: Product }) {
             <span className="text-foreground font-medium">{formatPrice(p.price)}</span>
           )}
         </div>
+        {p.min_order_qty && p.min_order_qty > 1 && (
+          <div className="text-[10px] md:text-xs uppercase tracking-[0.15em] text-muted-foreground">MOQ · {p.min_order_qty} pairs</div>
+        )}
       </div>
     </Link>
   );

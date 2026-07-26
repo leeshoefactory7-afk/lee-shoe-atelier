@@ -143,6 +143,7 @@ const productSchema = z.object({
   price: z.number().min(0),
   discount_price: z.number().nullable().optional(),
   stock: z.number().int().min(0).default(0),
+  min_order_qty: z.number().int().min(1).default(1),
   material: z.string().nullable().optional(),
   weight_grams: z.number().int().nullable().optional(),
   short_description: z.string().nullable().optional(),

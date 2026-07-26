@@ -37,7 +37,7 @@ export const listProducts = createServerFn({ method: "GET" })
     const sb = serverPublicClient();
     let q = sb
       .from("products")
-      .select("id,slug,name,brand,gender,price,discount_price,main_image,rating_avg,rating_count,is_new,is_bestseller,is_limited,category_id,short_description,stock")
+      .select("id,slug,name,brand,gender,price,discount_price,main_image,rating_avg,rating_count,is_new,is_bestseller,is_limited,category_id,short_description,stock,min_order_qty")
       .eq("status", "published")
       .order("created_at", { ascending: false });
     if (data.featured) q = q.eq("is_featured", true);
@@ -103,7 +103,7 @@ export const getCategoryBySlug = createServerFn({ method: "GET" })
     if (!cat) return null;
     const { data: products } = await sb
       .from("products")
-      .select("id,slug,name,brand,gender,price,discount_price,main_image,rating_avg,rating_count,is_new,is_bestseller,is_limited,short_description")
+      .select("id,slug,name,brand,gender,price,discount_price,main_image,rating_avg,rating_count,is_new,is_bestseller,is_limited,short_description,min_order_qty")
       .eq("status", "published")
       .eq("category_id", cat.id)
       .order("created_at", { ascending: false });

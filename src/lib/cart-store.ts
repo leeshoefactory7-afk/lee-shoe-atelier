@@ -10,6 +10,7 @@ export type CartItem = {
   size?: string;
   color?: string;
   quantity: number;
+  minOrderQty?: number;
 };
 
 type CartState = {
@@ -49,7 +50,9 @@ export const useCart = create<CartState>()(
       updateQty: (productId, quantity, size, color) =>
         set((s) => ({
           items: s.items.map((x) =>
-            key(x) === key({ productId, size, color }) ? { ...x, quantity: Math.max(1, quantity) } : x,
+            key(x) === key({ productId, size, color })
+              ? { ...x, quantity: Math.max(x.minOrderQty ?? 1, quantity) }
+              : x,
           ),
         })),
       clear: () => set({ items: [] }),
