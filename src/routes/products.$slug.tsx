@@ -79,11 +79,13 @@ function ProductDetail() {
   const color = activeVariant?.name;
 
   function addToCart() {
+    const q = Math.max(moq, qty);
     add({
       productId: product.id, slug: product.slug, name: product.name,
-      image: activeImg || product.main_image || "", price, size, color, quantity: qty,
+      image: activeImg || product.main_image || "", price, size, color, quantity: q,
+      minOrderQty: moq,
     });
-    toast.success("Added to cart");
+    toast.success(`Added ${q} to cart`);
   }
 
   return (
