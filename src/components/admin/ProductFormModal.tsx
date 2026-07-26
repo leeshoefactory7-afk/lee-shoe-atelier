@@ -31,7 +31,7 @@ export function ProductFormModal({ open, onOpenChange, productId, onSuccess }: P
     if (productId && open) {
       setLoading(true);
       fetchProduct({ data: { id: productId } })
-        .then((res) => setExistingProduct(res.product))
+        .then((res) => setExistingProduct(res?.product ?? null))
         .catch(() => {})
         .finally(() => setLoading(false));
     } else {
