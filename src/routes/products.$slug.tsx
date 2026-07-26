@@ -62,13 +62,15 @@ function ProductDetail() {
   const variants: Array<{ id?: string; name: string; hex?: string; images: string[] }> = (colorVariants ?? []).length
     ? colorVariants
     : (product.colors ?? []).map((n: string) => ({ name: n, images: [] }));
+  const moq = Math.max(1, Number(product.min_order_qty ?? 1));
   const [size, setSize] = useState<string | undefined>(product.sizes?.[0]);
   const [colorIdx, setColorIdx] = useState<number>(0);
   const activeVariant = variants[colorIdx];
   const galleryImages: string[] = (activeVariant?.images?.length ? activeVariant.images : (product.images ?? []));
-  const [qty, setQty] = useState(1);
+  const [qty, setQty] = useState(moq);
   const [activeImg, setActiveImg] = useState<string>(galleryImages[0] ?? product.main_image ?? "");
   useEffect(() => { setActiveImg(galleryImages[0] ?? product.main_image ?? ""); /* eslint-disable-next-line */ }, [colorIdx]);
+  useEffect(() => { setQty((q) => Math.max(moq, q)); }, [moq]);
   const add = useCart((s) => s.add);
   const wish = useWishlist();
   const navigate = useNavigate();
@@ -143,10 +145,19 @@ function ProductDetail() {
                 </div>
               </div>
             )}
-            <div className="mt-8 flex items-stretch gap-3">
+            <div className="mt-6 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+              Wholesale · Minimum order <span className="text-accent font-medium">{moq} {moq === 1 ? "pair" : "pairs"}</span>
+            </div>
+            <div className="mt-3 flex items-stretch gap-3">
               <div className="flex items-center border border-input">
-                <button onClick={() => setQty(Math.max(1, qty - 1))} className="px-3 py-3"><Minus className="size-4" /></button>
-                <div className="px-4 text-sm w-10 text-center">{qty}</div>
+                <button onClick={() => setQty(Math.max(moq, qty - 1))} className="px-3 py-3"><Minus className="size-4" /></button>
+                <input
+                  type="number"
+                  min={moq}
+                  value={qty}
+                  onChange={(e) => setQty(Math.max(moq, Number(e.target.value) || moq))}
+                  className="w-16 text-center text-sm bg-transparent outline-none"
+                />
                 <button onClick={() => setQty(qty + 1)} className="px-3 py-3"><Plus className="size-4" /></button>
               </div>
               <button onClick={addToCart} className="flex-1 bg-primary text-primary-foreground py-3 text-sm tracking-wide hover:bg-primary/90">Add to cart</button>
