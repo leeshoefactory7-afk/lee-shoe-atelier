@@ -37,7 +37,7 @@ export const Route = createFileRoute("/about")({
         className="mt-12 space-y-6"
       >
         <p className="text-lg leading-relaxed">
-          In 1990, Lee Shoe Factory began as a single-room atelier in Seoul, with a simple vision: make shoes that would outlast their owners. Three decades later, we've grown into one of Asia's premier footwear manufacturers—operating {SITE.stats.countriesServed}+ countries across four continents, partnering with {SITE.stats.wholesalePartners}+ wholesale partners, and producing {SITE.stats.pairsShipped}+ pairs annually.
+          In 1990, Lee Shoe Factory began as a single-room atelier in Seoul, with a simple vision: make shoes that would outlast their owners. Three decades later, we've grown into one of Asia's premier footwear manufacturers—operating {SITE.stats.countriesServed}+ countries across four continents, partnering with {SITE.stats.wholesalePartners}+ wholesale partners, and producing {SITE.stats.productsManufactured}+ pairs annually.
         </p>
         <p className="text-lg leading-relaxed">
           But growth never meant compromise. Every pair that leaves our factory has passed through the same rigorous 47-point quality inspection. We've simply gotten better at it.
