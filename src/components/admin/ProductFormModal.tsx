@@ -258,7 +258,7 @@ export function ProductFormModal({ open, onOpenChange, productId, onSuccess }: P
               <ImageUploader value={p.main_image} onChange={(v) => set("main_image", v)} folder="products" label="Main Image" />
             </div>
             <div>
-              <MultiImageUploader value={p.images} onChange={(v) => set("images", v)} folder="products" label="Additional Images" />
+              <MultiImageUploader values={p.images} onChange={(v) => set("images", v)} folder="products" label="Additional Images" />
             </div>
           </div>
 
