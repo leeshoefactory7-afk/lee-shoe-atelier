@@ -469,6 +469,7 @@ export type Database = {
           is_trending: boolean | null
           main_image: string | null
           material: string | null
+          min_order_qty: number
           name: string
           price: number
           rating_avg: number | null
@@ -506,6 +507,7 @@ export type Database = {
           is_trending?: boolean | null
           main_image?: string | null
           material?: string | null
+          min_order_qty?: number
           name: string
           price?: number
           rating_avg?: number | null
@@ -543,6 +545,7 @@ export type Database = {
           is_trending?: boolean | null
           main_image?: string | null
           material?: string | null
+          min_order_qty?: number
           name?: string
           price?: number
           rating_avg?: number | null
