@@ -1,14 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { CheckCircle2 } from "lucide-react";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { getOrderByNumber } from "@/lib/orders.functions";
 import { formatPrice } from "@/lib/site-config";
+import { useEffect, useState } from "react";
+import { z } from "zod";
 
-const opts = (num: string) => queryOptions({ queryKey: ["order", num], queryFn: () => getOrderByNumber({ data: { order_number: num } }) });
+const searchSchema = z.object({ email: z.string().email().optional() });
 
 export const Route = createFileRoute("/order-success/$orderNumber")({
-  loader: ({ context, params }) => context.queryClient.ensureQueryData(opts(params.orderNumber)),
+  validateSearch: (s) => searchSchema.parse(s),
   head: ({ params }) => ({
     meta: [
       { title: `Order ${params.orderNumber} · Lee Shoe Factory` },
@@ -21,7 +23,23 @@ export const Route = createFileRoute("/order-success/$orderNumber")({
 
 function Success() {
   const { orderNumber } = Route.useParams();
-  const { data } = useSuspenseQuery(opts(orderNumber));
+  const { email: emailFromUrl } = Route.useSearch();
+  const [email, setEmail] = useState(emailFromUrl ?? "");
+  const [data, setData] = useState<Awaited<ReturnType<typeof getOrderByNumber>> | null>(null);
+  const [notFound, setNotFound] = useState(false);
+
+  const lookup = useMutation({
+    mutationFn: async (e: string) => getOrderByNumber({ data: { order_number: orderNumber, email: e } }),
+    onSuccess: (res) => {
+      if (res) { setData(res); setNotFound(false); } else { setData(null); setNotFound(true); }
+    },
+  });
+
+  useEffect(() => {
+    if (emailFromUrl) lookup.mutate(emailFromUrl);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [emailFromUrl]);
+
   return (
     <SiteLayout>
       <div className="container-lux py-24 max-w-2xl mx-auto text-center">
@@ -31,6 +49,29 @@ function Success() {
           Thank you — your order <span className="text-foreground font-medium">{orderNumber}</span> has been submitted to our team.
           You will receive a confirmation email with payment instructions shortly.
         </p>
+
+        {!data && (
+          <form
+            className="mt-8 flex flex-col sm:flex-row gap-3 justify-center"
+            onSubmit={(e) => { e.preventDefault(); if (email) lookup.mutate(email); }}
+          >
+            <input
+              type="email"
+              required
+              placeholder="Enter the email used at checkout to view details"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="border border-input bg-background px-4 py-2 text-sm rounded flex-1"
+            />
+            <button type="submit" className="bg-primary text-primary-foreground px-6 py-2 text-sm" disabled={lookup.isPending}>
+              {lookup.isPending ? "Loading…" : "View details"}
+            </button>
+          </form>
+        )}
+        {notFound && !data && (
+          <p className="mt-4 text-sm text-destructive">We couldn't find an order matching that email.</p>
+        )}
+
         {data?.order && (
           <div className="mt-10 text-left bg-muted/40 p-8">
             <div className="grid grid-cols-2 gap-4 text-sm">
