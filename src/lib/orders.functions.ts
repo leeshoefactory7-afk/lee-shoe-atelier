@@ -70,7 +70,9 @@ export const submitOrder = createServerFn({ method: "POST" })
   });
 
 export const getOrderByNumber = createServerFn({ method: "GET" })
-  .inputValidator((d: { order_number: string }) => z.object({ order_number: z.string() }).parse(d))
+  .inputValidator((d: { order_number: string; email: string }) =>
+    z.object({ order_number: z.string().min(1), email: z.string().email() }).parse(d),
+  )
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: order } = await supabaseAdmin
@@ -79,12 +81,18 @@ export const getOrderByNumber = createServerFn({ method: "GET" })
       .eq("order_number", data.order_number)
       .maybeSingle();
     if (!order) return null;
+    // Require the requester to also know the order's email to prevent
+    // enumeration of low-entropy order numbers exposing customer PII.
+    if ((order.email ?? "").trim().toLowerCase() !== data.email.trim().toLowerCase()) {
+      return null;
+    }
     const { data: items } = await supabaseAdmin
       .from("order_items")
       .select("*")
       .eq("order_id", order.id);
     return { order, items: items ?? [] };
   });
+
 
 export const listMyOrders = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
