@@ -165,10 +165,14 @@ export const listGallery = createServerFn({ method: "GET" }).handler(async () =>
 });
 
 export const searchProducts = createServerFn({ method: "GET" })
-  .inputValidator((d: { q: string }) => z.object({ q: z.string() }).parse(d))
+  .inputValidator((d: { q: string }) => z.object({ q: z.string().max(100) }).parse(d))
   .handler(async ({ data }) => {
     const sb = serverPublicClient();
-    const term = `%${data.q}%`;
+    // Escape PostgREST filter delimiters (comma, parentheses, colon, period, backslash)
+    // and wildcard characters to prevent injection into the .or() filter string.
+    const safe = data.q.replace(/[\\,\.\(\):%*]/g, " ").trim();
+    if (!safe) return [];
+    const term = `%${safe}%`;
     const { data: rows } = await sb
       .from("products")
       .select("id,slug,name,price,discount_price,main_image,brand")
@@ -177,3 +181,4 @@ export const searchProducts = createServerFn({ method: "GET" })
       .limit(12);
     return rows ?? [];
   });
+
