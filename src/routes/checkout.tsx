@@ -60,7 +60,8 @@ function Checkout() {
       };
       const { order_number } = await submit({ data: payload });
       clear();
-      navigate({ to: "/order-success/$orderNumber", params: { orderNumber: order_number } });
+      navigate({ to: "/order-success/$orderNumber", params: { orderNumber: order_number }, search: { email: payload.email } });
+
     } catch (err: any) {
       toast.error(err?.message ?? "Order failed");
     } finally { setBusy(false); }
