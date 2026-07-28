@@ -208,7 +208,7 @@ export const Route = createFileRoute("/care-guide")({
               Lee shoes are designed to be resoled and repaired. When soles wear through, we recommend visiting a quality cobbler rather than discarding the shoes. Properly maintained Lee shoes should last 10–20 years or more.
             </p>
             <p>
-              For major damage or professional restoration, contact us at care@leeshoefactory.com for cobbler recommendations in your region.
+              For major damage or professional restoration, contact us at info@leeshoefactory.com for cobbler recommendations in your region.
             </p>
           </div>
         </motion.div>

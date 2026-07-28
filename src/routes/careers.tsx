@@ -154,8 +154,8 @@ export const Route = createFileRoute("/careers")({
           <p className="mb-6 leading-relaxed">
             Interested in joining our team? Send your CV and a brief note about why you're interested to:
           </p>
-          <a href="mailto:careers@leeshoefactory.com" className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-accent-foreground font-medium hover:bg-accent/90 transition-colors rounded">
-            careers@leeshoefactory.com
+          <a href="mailto:info@leeshoefactory.com" className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-accent-foreground font-medium hover:bg-accent/90 transition-colors rounded">
+            info@leeshoefactory.com
           </a>
           <p className="mt-6 text-sm text-primary-foreground/80">
             We review applications on a rolling basis. We'll get back to you within 2–3 weeks.

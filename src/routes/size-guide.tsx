@@ -107,7 +107,7 @@ export const Route = createFileRoute("/size-guide")({
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="text-accent font-bold mt-1">→</span>
-                    <span><strong>Questions?</strong> Email us at sizing@leeshoefactory.com</span>
+                    <span><strong>Questions?</strong> Email us at info@leeshoefactory.com</span>
                   </li>
                 </ul>
               </div>

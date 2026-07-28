@@ -7,7 +7,7 @@ export const Route = createFileRoute("/press")({
   head: () => ({
     meta: [
       { title: "Press · Lee Shoe Factory" },
-      { name: "description", content: "Download our press kit, media releases, and executive information. For media inquiries contact press@leeshoefactory.com." },
+      { name: "description", content: "Download our press kit, media releases, and executive information. For media inquiries contact info@leeshoefactory.com." },
       { property: "og:title", content: "Press · Lee Shoe Factory" },
       { property: "og:url", content: "/press" },
     ],
@@ -147,7 +147,7 @@ export const Route = createFileRoute("/press")({
                 <div className="space-y-4">
                   <div>
                     <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium">Email</div>
-                    <a href="mailto:press@leeshoefactory.com" className="text-accent hover:underline">press@leeshoefactory.com</a>
+                    <a href="mailto:info@leeshoefactory.com" className="text-accent hover:underline">info@leeshoefactory.com</a>
                   </div>
                   <div>
                     <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium">Phone</div>

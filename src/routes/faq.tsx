@@ -50,7 +50,7 @@ export const Route = createFileRoute("/faq")({
               },
               {
                 q: "Can you do custom orders?",
-                a: "Yes. We offer private label, OEM, and fully custom orders. Minimum order quantity is 300 pairs per style. Production lead time is 45–90 days depending on complexity. See our Manufacturing page or email wholesale@leeshoefactory.com for details."
+                a: "Yes. We offer private label, OEM, and fully custom orders. Minimum order quantity is 300 pairs per style. Production lead time is 45–90 days depending on complexity. See our Manufacturing page or email info@leeshoefactory.com for details."
               },
               {
                 q: "Are your shoes vegan/cruelty-free?",
@@ -63,7 +63,7 @@ export const Route = createFileRoute("/faq")({
             questions: [
               {
                 q: "How do I place an order?",
-                a: "Browse our catalog, select your size, and proceed to checkout. We accept major credit cards, PayPal, and wire transfer. For wholesale orders, contact wholesale@leeshoefactory.com."
+                a: "Browse our catalog, select your size, and proceed to checkout. We accept major credit cards, PayPal, and wire transfer. For wholesale orders, contact info@leeshoefactory.com."
               },
               {
                 q: "What are your shipping options?",
@@ -71,11 +71,11 @@ export const Route = createFileRoute("/faq")({
               },
               {
                 q: "Do you ship internationally?",
-                a: "Yes, to 60+ countries. DDP shipping means no surprise customs charges—price includes all duties and taxes. For countries with restricted imports, contact support@leeshoefactory.com."
+                a: "Yes, to 60+ countries. DDP shipping means no surprise customs charges—price includes all duties and taxes. For countries with restricted imports, contact info@leeshoefactory.com."
               },
               {
                 q: "Can I upgrade shipping?",
-                a: "Standard shipping is our only option. However, for urgent requests, email us at support@leeshoefactory.com and we'll explore expedited options on a case-by-case basis."
+                a: "Standard shipping is our only option. However, for urgent requests, email us at info@leeshoefactory.com and we'll explore expedited options on a case-by-case basis."
               }
             ]
           },
@@ -134,11 +134,11 @@ export const Route = createFileRoute("/faq")({
               },
               {
                 q: "Do you drop-ship?",
-                a: "Yes, for qualifying e-commerce partners. Drop-shipping allows you to list Lee shoes and order on-demand with production lead times of 45–90 days. Contact wholesale@leeshoefactory.com to discuss."
+                a: "Yes, for qualifying e-commerce partners. Drop-shipping allows you to list Lee shoes and order on-demand with production lead times of 45–90 days. Contact info@leeshoefactory.com to discuss."
               },
               {
                 q: "Are you looking to hire?",
-                a: "Yes. We regularly hire pattern engineers, quality controllers, sales managers, and sourcing specialists. Check our Careers page for current openings or email careers@leeshoefactory.com with your CV."
+                a: "Yes. We regularly hire pattern engineers, quality controllers, sales managers, and sourcing specialists. Check our Careers page for current openings or email info@leeshoefactory.com with your CV."
               }
             ]
           },
