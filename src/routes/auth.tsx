@@ -109,3 +109,24 @@ function Input({ label, ...rest }: { label: string } & React.InputHTMLAttributes
     </label>
   );
 }
+
+function PasswordInput({ label, ...rest }: { label: string } & Omit<React.InputHTMLAttributes<HTMLInputElement>, "type">) {
+  const [show, setShow] = useState(false);
+  return (
+    <label className="block text-sm">
+      <span className="text-xs uppercase tracking-[0.18em] text-muted-foreground">{label}</span>
+      <div className="relative mt-1">
+        <input {...rest} type={show ? "text" : "password"} className="w-full border border-input bg-background px-3 py-2.5 pr-10 focus:outline-none focus:border-accent" />
+        <button
+          type="button"
+          onClick={() => setShow((s) => !s)}
+          className="absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground hover:text-foreground"
+          aria-label={show ? "Hide password" : "Show password"}
+          tabIndex={-1}
+        >
+          {show ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+        </button>
+      </div>
+    </label>
+  );
+}
