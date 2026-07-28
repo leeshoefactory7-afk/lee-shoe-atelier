@@ -139,7 +139,7 @@ function QuoteForm() {
       toast.success("Quote request submitted — we'll follow up within 48 hours");
       e.currentTarget.reset();
     } catch {
-      toast.error("Failed to submit. Please email wholesale@leeshoefactory.com");
+      toast.error("Failed to submit. Please email info@leeshoefactory.com");
     } finally {
       setBusy(false);
     }

@@ -197,7 +197,7 @@ export const Route = createFileRoute("/factory-tour")({
             Request a Tour
           </a>
           <p className="text-sm text-primary-foreground/70 mt-4">
-            For press/media tours, email: press@leeshoefactory.com
+            For press/media tours, email: info@leeshoefactory.com
           </p>
         </motion.div>
       </motion.div>

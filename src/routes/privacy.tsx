@@ -14,7 +14,7 @@ export const Route = createFileRoute("/privacy")({
   component: () => (
     <StaticPage title="Privacy Policy" tagline="How we handle your data">
       <h2 className="font-serif text-3xl mt-2">Privacy</h2>
-      <p>This page describes how Lee Shoe Factory collects, uses and protects the personal information you share with us. We collect only what is necessary to fulfil your order, deliver our service and comply with the law. Contact privacy@leeshoefactory.com to access or delete your data.</p>
+      <p>This page describes how Lee Shoe Factory collects, uses and protects the personal information you share with us. We collect only what is necessary to fulfil your order, deliver our service and comply with the law. Contact info@leeshoefactory.com to access or delete your data.</p>
 
     </StaticPage>
   ),

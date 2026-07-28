@@ -5,7 +5,7 @@ export const Route = createFileRoute("/track-order")({
   head: () => ({
     meta: [
       { title: "Track Order · Lee Shoe Factory" },
-      { name: "description", content: "Enter your order number and email in the search below or check the confirmation email we sent you. For assistance email support@leeshoefactory.com." },
+      { name: "description", content: "Enter your order number and email in the search below or check the confirmation email we sent you. For assistance email info@leeshoefactory.com." },
       { property: "og:title", content: "Track Order · Lee Shoe Factory" },
       { property: "og:url", content: "/track-order" },
     ],
@@ -14,7 +14,7 @@ export const Route = createFileRoute("/track-order")({
   component: () => (
     <StaticPage title="Track Order" tagline="Follow your delivery">
       <h2 className="font-serif text-3xl mt-2">Order tracking</h2>
-      <p>Enter your order number and email in the search below or check the confirmation email we sent you. For assistance email support@leeshoefactory.com.</p>
+      <p>Enter your order number and email in the search below or check the confirmation email we sent you. For assistance email info@leeshoefactory.com.</p>
 
     </StaticPage>
   ),

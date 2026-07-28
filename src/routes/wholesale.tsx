@@ -225,7 +225,7 @@ function WholeApplyForm() {
       toast.success("Application submitted — we'll review within 48 hours");
       e.currentTarget.reset();
     } catch {
-      toast.error("Failed to submit. Please email wholesale@leeshoefactory.com");
+      toast.error("Failed to submit. Please email info@leeshoefactory.com");
     } finally {
       setBusy(false);
     }
@@ -240,7 +240,7 @@ function WholeApplyForm() {
     >
       <h3 className="font-serif text-3xl md:text-4xl mb-2">Ready to partner?</h3>
       <p className="mb-8 text-primary-foreground/90 leading-relaxed max-w-2xl">
-        Fill out the form below or email us directly at wholesale@leeshoefactory.com. We'll connect within 48 hours.
+        Fill out the form below or email us directly at info@leeshoefactory.com. We'll connect within 48 hours.
       </p>
 
       <form onSubmit={onSubmit} className="grid md:grid-cols-2 gap-6 max-w-2xl">

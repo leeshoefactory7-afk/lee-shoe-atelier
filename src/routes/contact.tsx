@@ -137,8 +137,8 @@ function Contact() {
             <p className="text-muted-foreground leading-relaxed mb-4">
               For product questions, bulk orders, and direct-to-consumer inquiries:
             </p>
-            <a href={`mailto:sales@leeshoefactory.com`} className="text-accent hover:underline font-medium">
-              sales@leeshoefactory.com
+            <a href={`mailto:info@leeshoefactory.com`} className="text-accent hover:underline font-medium">
+              info@leeshoefactory.com
             </a>
           </motion.div>
 
@@ -151,8 +151,8 @@ function Contact() {
             <p className="text-muted-foreground leading-relaxed mb-4">
               Interested in private label, OEM, or wholesale distribution:
             </p>
-            <a href={`mailto:wholesale@leeshoefactory.com`} className="text-accent hover:underline font-medium">
-              wholesale@leeshoefactory.com
+            <a href={`mailto:info@leeshoefactory.com`} className="text-accent hover:underline font-medium">
+              info@leeshoefactory.com
             </a>
           </motion.div>
 
@@ -165,8 +165,8 @@ function Contact() {
             <p className="text-muted-foreground leading-relaxed mb-4">
               For media inquiries and press kit requests:
             </p>
-            <a href={`mailto:press@leeshoefactory.com`} className="text-accent hover:underline font-medium">
-              press@leeshoefactory.com
+            <a href={`mailto:info@leeshoefactory.com`} className="text-accent hover:underline font-medium">
+              info@leeshoefactory.com
             </a>
           </motion.div>
 
