@@ -84,7 +84,8 @@ function Auth() {
             <Input name="full_name" label="Full name" required />
           )}
           <Input name="email" type="email" label="Email" required />
-          <Input name="password" type="password" label="Password" required minLength={6} />
+          <PasswordInput name="password" label="Password" required minLength={6} />
+
           <button disabled={busy} className="w-full bg-primary text-primary-foreground py-3 text-sm hover:bg-primary/90 disabled:opacity-60">
             {busy ? "Please wait…" : mode === "signin" ? "Sign in" : "Create account"}
           </button>
