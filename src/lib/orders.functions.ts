@@ -1,7 +1,26 @@
 import { createServerFn } from "@tanstack/react-start";
+import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import type { Database } from "@/integrations/supabase/types";
 import { SITE } from "./site-config";
+
+function createPublicClient() {
+  const url = process.env.SUPABASE_URL!;
+  const key = process.env.SUPABASE_PUBLISHABLE_KEY!;
+  const isOpaque = key.startsWith("sb_publishable_") || key.startsWith("sb_secret_");
+  return createClient<Database>(url, key, {
+    auth: { storage: undefined, persistSession: false, autoRefreshToken: false },
+    global: {
+      fetch: (input, init) => {
+        const headers = new Headers(init?.headers);
+        if (isOpaque && headers.get("Authorization") === `Bearer ${key}`) headers.delete("Authorization");
+        headers.set("apikey", key);
+        return fetch(input, { ...init, headers });
+      },
+    },
+  });
+}
 
 const itemSchema = z.object({
   product_id: z.string().uuid().nullable().optional(),
@@ -34,39 +53,26 @@ const orderSchema = z.object({
 export const submitOrder = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => orderSchema.parse(d))
   .handler(async ({ data }) => {
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { items, ...header } = data;
-    const { data: order, error } = await supabaseAdmin
-      .from("orders")
-      .insert({ ...header, status: "pending" })
-      .select()
-      .single();
-    if (error || !order) throw new Error(error?.message ?? "Failed");
-    const itemsToInsert = items.map((i) => ({
-      order_id: order.id,
-      product_id: i.product_id ?? null,
-      product_name: i.product_name,
-      product_image: i.product_image ?? null,
-      size: i.size ?? null,
-      color: i.color ?? null,
-      quantity: i.quantity,
-      unit_price: i.unit_price,
-      subtotal: i.quantity * i.unit_price,
-    }));
-    await supabaseAdmin.from("order_items").insert(itemsToInsert);
-    // Fire FormSubmit
+    const supabase = createPublicClient();
+    const { data: orderNumber, error } = await supabase.rpc("place_order", {
+      header: header as any,
+      items: items as any,
+    });
+    if (error) throw new Error(error.message);
+
     try {
       await fetch(SITE.formsubmitUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
-          _subject: `Lee · New order ${order.order_number}`,
+          _subject: `Lee · New order ${orderNumber}`,
           ...header,
           items,
         }),
       });
     } catch {}
-    return { order_number: order.order_number };
+    return { order_number: orderNumber as string };
   });
 
 export const getOrderByNumber = createServerFn({ method: "GET" })
@@ -74,25 +80,15 @@ export const getOrderByNumber = createServerFn({ method: "GET" })
     z.object({ order_number: z.string().min(1), email: z.string().email() }).parse(d),
   )
   .handler(async ({ data }) => {
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data: order } = await supabaseAdmin
-      .from("orders")
-      .select("*")
-      .eq("order_number", data.order_number)
-      .maybeSingle();
-    if (!order) return null;
-    // Require the requester to also know the order's email to prevent
-    // enumeration of low-entropy order numbers exposing customer PII.
-    if ((order.email ?? "").trim().toLowerCase() !== data.email.trim().toLowerCase()) {
-      return null;
-    }
-    const { data: items } = await supabaseAdmin
-      .from("order_items")
-      .select("*")
-      .eq("order_id", order.id);
-    return { order, items: items ?? [] };
+    const supabase = createPublicClient();
+    const { data: result, error } = await supabase.rpc("get_order_by_number_email", {
+      _order_number: data.order_number,
+      _email: data.email,
+    });
+    if (error) throw new Error(error.message);
+    if (!result) return null;
+    return result as { order: any; items: any[] };
   });
-
 
 export const listMyOrders = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
