@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { Eye, EyeOff } from "lucide-react";
 
 export const Route = createFileRoute("/auth")({
   validateSearch: z.object({ redirect: z.string().optional() }).parse,
@@ -83,7 +84,8 @@ function Auth() {
             <Input name="full_name" label="Full name" required />
           )}
           <Input name="email" type="email" label="Email" required />
-          <Input name="password" type="password" label="Password" required minLength={6} />
+          <PasswordInput name="password" label="Password" required minLength={6} />
+
           <button disabled={busy} className="w-full bg-primary text-primary-foreground py-3 text-sm hover:bg-primary/90 disabled:opacity-60">
             {busy ? "Please wait…" : mode === "signin" ? "Sign in" : "Create account"}
           </button>
@@ -104,6 +106,27 @@ function Input({ label, ...rest }: { label: string } & React.InputHTMLAttributes
     <label className="block text-sm">
       <span className="text-xs uppercase tracking-[0.18em] text-muted-foreground">{label}</span>
       <input {...rest} className="mt-1 w-full border border-input bg-background px-3 py-2.5 focus:outline-none focus:border-accent" />
+    </label>
+  );
+}
+
+function PasswordInput({ label, ...rest }: { label: string } & Omit<React.InputHTMLAttributes<HTMLInputElement>, "type">) {
+  const [show, setShow] = useState(false);
+  return (
+    <label className="block text-sm">
+      <span className="text-xs uppercase tracking-[0.18em] text-muted-foreground">{label}</span>
+      <div className="relative mt-1">
+        <input {...rest} type={show ? "text" : "password"} className="w-full border border-input bg-background px-3 py-2.5 pr-10 focus:outline-none focus:border-accent" />
+        <button
+          type="button"
+          onClick={() => setShow((s) => !s)}
+          className="absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground hover:text-foreground"
+          aria-label={show ? "Hide password" : "Show password"}
+          tabIndex={-1}
+        >
+          {show ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+        </button>
+      </div>
     </label>
   );
 }
