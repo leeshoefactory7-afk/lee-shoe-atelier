@@ -739,6 +739,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_order_by_number_email: {
+        Args: { _email: string; _order_number: string }
+        Returns: Json
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -746,6 +750,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      place_order: { Args: { header: Json; items: Json }; Returns: string }
     }
     Enums: {
       app_role: "admin" | "customer"

@@ -1,6 +1,25 @@
 import { createServerFn } from "@tanstack/react-start";
+import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
+import type { Database } from "@/integrations/supabase/types";
 import { SITE } from "./site-config";
+
+function createPublicClient() {
+  const url = process.env.SUPABASE_URL!;
+  const key = process.env.SUPABASE_PUBLISHABLE_KEY!;
+  const isOpaque = key.startsWith("sb_publishable_") || key.startsWith("sb_secret_");
+  return createClient<Database>(url, key, {
+    auth: { storage: undefined, persistSession: false, autoRefreshToken: false },
+    global: {
+      fetch: (input, init) => {
+        const headers = new Headers(init?.headers);
+        if (isOpaque && headers.get("Authorization") === `Bearer ${key}`) headers.delete("Authorization");
+        headers.set("apikey", key);
+        return fetch(input, { ...init, headers });
+      },
+    },
+  });
+}
 
 async function submitFormsubmit(subject: string, payload: Record<string, unknown>) {
   try {
@@ -17,8 +36,9 @@ async function submitFormsubmit(subject: string, payload: Record<string, unknown
 export const subscribeNewsletter = createServerFn({ method: "POST" })
   .inputValidator((d: { email: string }) => z.object({ email: z.string().email() }).parse(d))
   .handler(async ({ data }) => {
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    await supabaseAdmin.from("newsletter_subscribers").upsert({ email: data.email }, { onConflict: "email" });
+    const supabase = createPublicClient();
+    // Public INSERT policy exists; ignore duplicate errors.
+    await supabase.from("newsletter_subscribers").insert({ email: data.email });
     await submitFormsubmit("New Lee newsletter subscriber", { email: data.email });
     return { ok: true };
   });
@@ -38,8 +58,8 @@ const contactSchema = z.object({
 export const submitContactMessage = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => contactSchema.parse(d))
   .handler(async ({ data }) => {
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { error } = await supabaseAdmin.from("contact_messages").insert({
+    const supabase = createPublicClient();
+    const { error } = await supabase.from("contact_messages").insert({
       kind: data.kind,
       name: data.name,
       email: data.email,
