@@ -4,6 +4,8 @@ import { StaticPage } from "@/components/site/StaticPage";
 import { Globe, TrendingUp, Users, Award } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { SITE } from "@/lib/site-config";
+
 
 export const Route = createFileRoute("/become-distributor")({
   head: () => ({
@@ -145,11 +147,12 @@ function DistributorForm() {
     const fd = new FormData(e.currentTarget);
     const payload = Object.fromEntries(fd.entries());
     try {
-      await fetch("https://formspree.io/f/xyzabcd123", {
+      await fetch(SITE.formsubmitUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({ _subject: "Lee · Distributor Application", ...payload }),
       });
+
       toast.success("Application submitted — we'll review within 48 hours");
       e.currentTarget.reset();
     } catch {
