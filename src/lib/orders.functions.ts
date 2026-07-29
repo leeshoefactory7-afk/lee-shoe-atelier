@@ -62,16 +62,43 @@ export const submitOrder = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
 
     try {
-      await fetch(SITE.formsubmitUrl, {
+      const itemsText = items
+        .map(
+          (it, i) =>
+            `${i + 1}. ${it.product_name}${it.color ? ` · ${it.color}` : ""}${it.size ? ` · size ${it.size}` : ""} × ${it.quantity} @ $${it.unit_price} = $${(it.quantity * it.unit_price).toFixed(2)}`,
+        )
+        .join("\n");
+      const payload = {
+        _subject: `Lee · New order ${orderNumber}`,
+        _template: "table",
+        _captcha: "false",
+        order_number: orderNumber,
+        customer_name: header.customer_name,
+        company_name: header.company_name ?? "",
+        email: header.email,
+        phone: header.phone ?? "",
+        country: header.country ?? "",
+        city: header.city ?? "",
+        postal_code: header.postal_code ?? "",
+        shipping_address: header.shipping_address ?? "",
+        billing_address: header.billing_address ?? "",
+        notes: header.notes ?? "",
+        subtotal: `$${header.subtotal.toFixed(2)}`,
+        shipping: `$${header.shipping.toFixed(2)}`,
+        total: `$${header.total.toFixed(2)}`,
+        items: itemsText,
+      };
+      const res = await fetch(SITE.formsubmitUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          _subject: `Lee · New order ${orderNumber}`,
-          ...header,
-          items,
-        }),
+        body: JSON.stringify(payload),
       });
-    } catch {}
+      if (!res.ok) {
+        console.error("[formsubmit] order email failed", res.status, await res.text().catch(() => ""));
+      }
+    } catch (e) {
+      console.error("[formsubmit] order email threw", e);
+    }
     return { order_number: orderNumber as string };
   });
 
