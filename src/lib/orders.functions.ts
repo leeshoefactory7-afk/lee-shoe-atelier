@@ -88,11 +88,19 @@ export const submitOrder = createServerFn({ method: "POST" })
         total: `$${header.total.toFixed(2)}`,
         items: itemsText,
       };
+      const origin = `https://${SITE.domain}`;
       const res = await fetch(SITE.formsubmitUrl, {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Origin: origin,
+          Referer: `${origin}/checkout`,
+        },
         body: JSON.stringify(payload),
       });
+      const bodyText = await res.text().catch(() => "");
+      console.log("[formsubmit] order email response", res.status, bodyText);
       if (!res.ok) {
         console.error("[formsubmit] order email failed", res.status, await res.text().catch(() => ""));
       }
