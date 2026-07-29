@@ -4,6 +4,8 @@ import { StaticPage } from "@/components/site/StaticPage";
 import { Globe, DollarSign, Users, Zap, CheckCircle, TrendingUp } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { SITE } from "@/lib/site-config";
+
 
 export const Route = createFileRoute("/wholesale")({
   head: () => ({
