@@ -102,7 +102,7 @@ export const submitOrder = createServerFn({ method: "POST" })
       const bodyText = await res.text().catch(() => "");
       console.log("[formsubmit] order email response", res.status, bodyText);
       if (!res.ok) {
-        console.error("[formsubmit] order email failed", res.status, await res.text().catch(() => ""));
+        console.error("[formsubmit] order email failed", res.status, bodyText);
       }
     } catch (e) {
       console.error("[formsubmit] order email threw", e);
