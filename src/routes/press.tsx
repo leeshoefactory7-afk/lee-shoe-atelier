@@ -200,9 +200,26 @@ export const Route = createFileRoute("/press")({
           <p className="mb-6 leading-relaxed">
             Get our latest news, announcements, and insights delivered directly to your inbox.
           </p>
-          <form className="flex gap-2 flex-col sm:flex-row max-w-md">
+          <form
+            className="flex gap-2 flex-col sm:flex-row max-w-md"
+            onSubmit={async (e) => {
+              e.preventDefault();
+              const fd = new FormData(e.currentTarget);
+              const email = String(fd.get("email") ?? "");
+              try {
+                await fetch(SITE.formsubmitUrl, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json", Accept: "application/json" },
+                  body: JSON.stringify({ _subject: "Lee · Press subscription", email }),
+                });
+                toast.success("Subscribed — thank you");
+                e.currentTarget.reset();
+              } catch { toast.error("Failed to subscribe"); }
+            }}
+          >
             <input
               type="email"
+              name="email"
               placeholder="Your email"
               required
               className="flex-1 px-4 py-3 bg-primary-foreground/10 border border-primary-foreground/20 text-primary-foreground placeholder-primary-foreground/50 focus:outline-none focus:border-primary-foreground/50"
@@ -214,6 +231,7 @@ export const Route = createFileRoute("/press")({
               Subscribe
             </button>
           </form>
+
         </motion.div>
       </motion.div>
     </StaticPage>
