@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { StaticPage } from "@/components/site/StaticPage";
 import { useState } from "react";
 import { toast } from "sonner";
+import { SITE } from "@/lib/site-config";
+
 
 export const Route = createFileRoute("/request-quote")({
   head: () => ({
