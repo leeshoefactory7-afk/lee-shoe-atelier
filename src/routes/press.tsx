@@ -2,6 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { StaticPage } from "@/components/site/StaticPage";
 import { Download, FileText, Users, Award } from "lucide-react";
+import { SITE } from "@/lib/site-config";
+import { toast } from "sonner";
+
 
 export const Route = createFileRoute("/press")({
   head: () => ({
