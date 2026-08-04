@@ -55,6 +55,7 @@ import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as ApiPublicGoogleMerchantFeedDotxmlRouteImport } from './routes/api/public/google-merchant-feed[.]xml'
 import { Route as ApiPublicGoogleMerchantFeedDotcsvRouteImport } from './routes/api/public/google-merchant-feed[.]csv'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
 import { Route as AuthenticatedAdminReviewsRouteImport } from './routes/_authenticated/admin.reviews'
@@ -296,6 +297,12 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const ApiPublicGoogleMerchantFeedDotxmlRoute =
+  ApiPublicGoogleMerchantFeedDotxmlRouteImport.update({
+    id: '/api/public/google-merchant-feed.xml',
+    path: '/api/public/google-merchant-feed.xml',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicGoogleMerchantFeedDotcsvRoute =
   ApiPublicGoogleMerchantFeedDotcsvRouteImport.update({
     id: '/api/public/google-merchant-feed.csv',
@@ -416,6 +423,7 @@ export interface FileRoutesByFullPath {
   '/admin/reviews': typeof AuthenticatedAdminReviewsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/api/public/google-merchant-feed.csv': typeof ApiPublicGoogleMerchantFeedDotcsvRoute
+  '/api/public/google-merchant-feed.xml': typeof ApiPublicGoogleMerchantFeedDotxmlRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/api/public/img/$': typeof ApiPublicImgSplatRoute
 }
@@ -473,6 +481,7 @@ export interface FileRoutesByTo {
   '/admin/reviews': typeof AuthenticatedAdminReviewsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/api/public/google-merchant-feed.csv': typeof ApiPublicGoogleMerchantFeedDotcsvRoute
+  '/api/public/google-merchant-feed.xml': typeof ApiPublicGoogleMerchantFeedDotxmlRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/api/public/img/$': typeof ApiPublicImgSplatRoute
 }
@@ -533,6 +542,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/reviews': typeof AuthenticatedAdminReviewsRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/api/public/google-merchant-feed.csv': typeof ApiPublicGoogleMerchantFeedDotcsvRoute
+  '/api/public/google-merchant-feed.xml': typeof ApiPublicGoogleMerchantFeedDotxmlRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/api/public/img/$': typeof ApiPublicImgSplatRoute
 }
@@ -593,6 +603,7 @@ export interface FileRouteTypes {
     | '/admin/reviews'
     | '/admin/settings'
     | '/api/public/google-merchant-feed.csv'
+    | '/api/public/google-merchant-feed.xml'
     | '/admin/'
     | '/api/public/img/$'
   fileRoutesByTo: FileRoutesByTo
@@ -650,6 +661,7 @@ export interface FileRouteTypes {
     | '/admin/reviews'
     | '/admin/settings'
     | '/api/public/google-merchant-feed.csv'
+    | '/api/public/google-merchant-feed.xml'
     | '/admin'
     | '/api/public/img/$'
   id:
@@ -709,6 +721,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/reviews'
     | '/_authenticated/admin/settings'
     | '/api/public/google-merchant-feed.csv'
+    | '/api/public/google-merchant-feed.xml'
     | '/_authenticated/admin/'
     | '/api/public/img/$'
   fileRoutesById: FileRoutesById
@@ -758,6 +771,7 @@ export interface RootRouteChildren {
   ProductsSlugRoute: typeof ProductsSlugRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
   ApiPublicGoogleMerchantFeedDotcsvRoute: typeof ApiPublicGoogleMerchantFeedDotcsvRoute
+  ApiPublicGoogleMerchantFeedDotxmlRoute: typeof ApiPublicGoogleMerchantFeedDotxmlRoute
   ApiPublicImgSplatRoute: typeof ApiPublicImgSplatRoute
 }
 
@@ -1085,6 +1099,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/api/public/google-merchant-feed.xml': {
+      id: '/api/public/google-merchant-feed.xml'
+      path: '/api/public/google-merchant-feed.xml'
+      fullPath: '/api/public/google-merchant-feed.xml'
+      preLoaderRoute: typeof ApiPublicGoogleMerchantFeedDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/google-merchant-feed.csv': {
       id: '/api/public/google-merchant-feed.csv'
       path: '/api/public/google-merchant-feed.csv'
@@ -1261,6 +1282,8 @@ const rootRouteChildren: RootRouteChildren = {
   ProductsIndexRoute: ProductsIndexRoute,
   ApiPublicGoogleMerchantFeedDotcsvRoute:
     ApiPublicGoogleMerchantFeedDotcsvRoute,
+  ApiPublicGoogleMerchantFeedDotxmlRoute:
+    ApiPublicGoogleMerchantFeedDotxmlRoute,
   ApiPublicImgSplatRoute: ApiPublicImgSplatRoute,
 }
 export const routeTree = rootRouteImport

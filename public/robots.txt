@@ -4,3 +4,5 @@ Disallow: /admin
 Disallow: /account
 Disallow: /checkout
 Disallow: /cart
+
+Sitemap: https://leeshoefactory.com/sitemap.xml
