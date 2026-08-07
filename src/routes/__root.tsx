@@ -96,6 +96,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           sameAs: [SITE.social.instagram, SITE.social.facebook, SITE.social.linkedin],
         }),
       },
+      {
+        src: "https://embed.tawk.to/6a7649ea941ab01d456d7c4e/1jvf11fhk",
+        async: true,
+        charSet: "UTF-8",
+        crossOrigin: "*",
+      },
     ],
   }),
   shellComponent: RootShell,
