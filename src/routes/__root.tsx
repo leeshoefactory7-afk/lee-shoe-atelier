@@ -100,8 +100,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         src: "https://embed.tawk.to/6a7649ea941ab01d456d7c4e/1jvf11fhk",
         async: true,
         charSet: "UTF-8",
-        crossOrigin: "*",
+        crossOrigin: "anonymous" as const,
       },
+
     ],
   }),
   shellComponent: RootShell,
