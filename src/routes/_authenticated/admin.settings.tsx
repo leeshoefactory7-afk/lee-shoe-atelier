@@ -13,7 +13,7 @@ const PRESETS = [
   { key: "brand.name", value: "Lee Shoe Factory" },
   { key: "brand.tagline", value: "Premium Footwear, Crafted for the World" },
   { key: "brand.email", value: "info@leeshoefactory.com" },
-  { key: "brand.whatsapp", value: "+00 000 000 0000" },
+  { key: "brand.whatsapp", value: "+1 (912) 831-9041" },
   { key: "brand.address", value: "Industrial Zone, Manufacturing District" },
   { key: "brand.hours", value: "Mon–Sat · 9:00 – 18:00 (GMT+0)" },
   { key: "social.instagram", value: "https://instagram.com" },
