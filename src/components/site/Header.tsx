@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Menu, Search, User, X, Heart } from "lucide-react";
+import { Menu, Search, User, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { SITE } from "@/lib/site-config";
@@ -71,9 +71,6 @@ export function Header() {
           <div className="flex items-center gap-2 md:gap-3 ml-auto">
             <Link to="/products" className="p-2.5 hover:bg-muted rounded transition-colors" aria-label="Search">
               <Search className="size-4 md:size-5" />
-            </Link>
-            <Link to="/account/wishlist" className="p-2.5 hover:bg-muted rounded transition-colors hidden sm:inline-flex" aria-label="Wishlist">
-              <Heart className="size-4 md:size-5" />
             </Link>
             <Link to={signedIn ? "/account" : "/auth"} className="p-2.5 hover:bg-muted rounded transition-colors" aria-label="Account">
               <User className="size-4 md:size-5" />
