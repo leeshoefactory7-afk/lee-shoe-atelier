@@ -60,35 +60,21 @@ export const submitOrder = createServerFn({ method: "POST" })
       items: items as any,
     });
     if (error) throw new Error(error.message);
+    return { order_number: orderNumber as string };
+  });
 
+/**
+ * Server-side FormSubmit attempt. Used only as a fallback: the primary send now
+ * happens from the customer's browser, because FormSubmit's free tier throttles
+ * per outbound IP and our server IP is shared (HTTP 429 "Rate limit exceeded").
+ */
+export const sendOrderEmailFromServer = createServerFn({ method: "POST" })
+  .inputValidator((d: { payload: Record<string, unknown> }) =>
+    z.object({ payload: z.record(z.string(), z.any()) }).parse(d),
+  )
+  .handler(async ({ data }) => {
+    const origin = `https://${SITE.domain}`;
     try {
-      const itemsText = items
-        .map(
-          (it, i) =>
-            `${i + 1}. ${it.product_name}${it.color ? ` · ${it.color}` : ""}${it.size ? ` · size ${it.size}` : ""} × ${it.quantity} @ $${it.unit_price} = $${(it.quantity * it.unit_price).toFixed(2)}`,
-        )
-        .join("\n");
-      const payload = {
-        _subject: `Lee · New order ${orderNumber}`,
-        _template: "table",
-        _captcha: "false",
-        order_number: orderNumber,
-        customer_name: header.customer_name,
-        company_name: header.company_name ?? "",
-        email: header.email,
-        phone: header.phone ?? "",
-        country: header.country ?? "",
-        city: header.city ?? "",
-        postal_code: header.postal_code ?? "",
-        shipping_address: header.shipping_address ?? "",
-        billing_address: header.billing_address ?? "",
-        notes: header.notes ?? "",
-        subtotal: `$${header.subtotal.toFixed(2)}`,
-        shipping: `$${header.shipping.toFixed(2)}`,
-        total: `$${header.total.toFixed(2)}`,
-        items: itemsText,
-      };
-      const origin = `https://${SITE.domain}`;
       const res = await fetch(SITE.formsubmitUrl, {
         method: "POST",
         headers: {
@@ -97,18 +83,24 @@ export const submitOrder = createServerFn({ method: "POST" })
           Origin: origin,
           Referer: `${origin}/checkout`,
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(data.payload),
       });
-      const bodyText = await res.text().catch(() => "");
-      console.log("[formsubmit] order email response", res.status, bodyText);
-      if (!res.ok) {
-        console.error("[formsubmit] order email failed", res.status, bodyText);
+      const body = await res.text().catch(() => "");
+      let ok = res.ok;
+      try {
+        const json = JSON.parse(body);
+        if (json && typeof json.success !== "undefined") ok = json.success === true || json.success === "true";
+      } catch {
+        /* non-JSON */
       }
-    } catch (e) {
-      console.error("[formsubmit] order email threw", e);
+      if (!ok) console.error("[formsubmit] server fallback failed", res.status, body);
+      return { ok, status: res.status, body: body.slice(0, 300) };
+    } catch (e: any) {
+      console.error("[formsubmit] server fallback threw", e);
+      return { ok: false, status: 0, body: String(e?.message ?? e) };
     }
-    return { order_number: orderNumber as string };
   });
+
 
 export const getOrderByNumber = createServerFn({ method: "GET" })
   .inputValidator((d: { order_number: string; email: string }) =>
