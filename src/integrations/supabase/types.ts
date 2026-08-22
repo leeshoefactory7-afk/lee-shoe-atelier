@@ -757,7 +757,12 @@ export type Database = {
         Returns: boolean
       }
       mark_order_notified: {
-        Args: { _error?: string; _ok: boolean; _order_number: string }
+        Args: {
+          _email: string
+          _error?: string
+          _ok: boolean
+          _order_number: string
+        }
         Returns: boolean
       }
       place_order: { Args: { header: Json; items: Json }; Returns: string }
