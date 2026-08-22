@@ -353,6 +353,8 @@ export type Database = {
           email: string
           id: string
           notes: string | null
+          notified_at: string | null
+          notify_error: string | null
           order_number: string
           phone: string | null
           postal_code: string | null
@@ -374,6 +376,8 @@ export type Database = {
           email: string
           id?: string
           notes?: string | null
+          notified_at?: string | null
+          notify_error?: string | null
           order_number: string
           phone?: string | null
           postal_code?: string | null
@@ -395,6 +399,8 @@ export type Database = {
           email?: string
           id?: string
           notes?: string | null
+          notified_at?: string | null
+          notify_error?: string | null
           order_number?: string
           phone?: string | null
           postal_code?: string | null
@@ -748,6 +754,10 @@ export type Database = {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
+        Returns: boolean
+      }
+      mark_order_notified: {
+        Args: { _error?: string; _ok: boolean; _order_number: string }
         Returns: boolean
       }
       place_order: { Args: { header: Json; items: Json }; Returns: string }
