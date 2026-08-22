@@ -6,6 +6,8 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useServerFn } from "@tanstack/react-start";
 import { submitOrder } from "@/lib/orders.functions";
+import { notifyOrderEmail } from "@/lib/notify-order";
+
 
 export const Route = createFileRoute("/checkout")({
   head: () => ({

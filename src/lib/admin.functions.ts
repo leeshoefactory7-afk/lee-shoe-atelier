@@ -86,11 +86,12 @@ export const adminListOrders = createServerFn({ method: "GET" })
     await assertAdmin(context);
     const { data } = await context.supabase
       .from("orders")
-      .select("id,order_number,customer_name,email,total,status,created_at")
+      .select("id,order_number,customer_name,email,total,status,created_at,notified_at,notify_error")
       .order("created_at", { ascending: false })
       .limit(200);
     return data ?? [];
   });
+
 
 export const adminGetOrder = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
