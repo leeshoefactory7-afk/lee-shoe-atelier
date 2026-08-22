@@ -6,6 +6,8 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useServerFn } from "@tanstack/react-start";
 import { submitOrder } from "@/lib/orders.functions";
+import { notifyOrderEmail } from "@/lib/notify-order";
+
 
 export const Route = createFileRoute("/checkout")({
   head: () => ({
@@ -59,8 +61,13 @@ function Checkout() {
         })),
       };
       const { order_number } = await submit({ data: payload });
+      // Send the notification email from the browser (own IP + real origin) to
+      // avoid FormSubmit's shared server-IP rate limit. Never blocks the redirect.
+      void notifyOrderEmail({ ...payload, order_number }, payload.items);
       clear();
       navigate({ to: "/order-success/$orderNumber", params: { orderNumber: order_number }, search: { email: payload.email } });
+
+
 
     } catch (err: any) {
       toast.error(err?.message ?? "Order failed");
