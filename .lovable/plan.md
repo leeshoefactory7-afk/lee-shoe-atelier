@@ -1,64 +1,86 @@
-# Remove Shopify & Build Full Admin CRUD
+# Make Order Emails Actually Arrive (FormSubmit)
 
-## 1. Remove Shopify completely
-- Delete: `src/lib/shopify.ts`, `src/stores/shopifyCartStore.ts`, `src/hooks/useCartSync.ts`, `src/components/site/ShopifyCartDrawer.tsx`, `src/routes/shop.tsx`, `src/routes/product.$handle.tsx`
-- Uninstall shopify env usage; remove `useCartSync` from `__root.tsx`
-- Header: swap `ShopifyCartDrawer` back to local cart drawer linking to `/cart`; primary nav uses `/products`
-- Keep local `cart-store.ts` + `/cart` + `/checkout` as the real flow
+## What the "Rate limit exceeded" error means
 
-## 2. Checkout via FormSubmit.co
-- `/checkout` posts order to `info@leeshoefactory.com` via FormSubmit (already in `forms.functions.ts` pattern)
-- Still persist order in Supabase `orders` + `order_items`, then fire FormSubmit email with full order details
-- Order success page shows confirmation + order number
+When an order is placed, the site does two things:
 
-## 3. Storage for images (Supabase Storage)
-- Create public bucket `product-images` via `supabase--storage_create_bucket`
-- RLS: public read, admin-only write (policy on `storage.objects` using `has_role`)
-- Add `uploadProductImage` server fn using `supabaseAdmin.storage` returning public URL
-- Admin UI uses `<input type="file">` → server fn → returns URL stored on product
+1. Saves the order in the database (this works — that is why orders show in the admin panel).
+2. Posts the order details to `https://formsubmit.co/ajax/info@leeshoefactory.com` so FormSubmit forwards it to your inbox.
 
-## 4. Schema updates (migration)
-- Add `product_colors` table:
-  - `id`, `product_id` (fk cascade), `name`, `hex`, `images` (text[] of URLs), `sort_order`
-  - GRANTs + RLS: public read via products.status='active'; admin write
-- Keep existing `products.colors` jsonb for backward compat but new UI uses `product_colors`
-- Add `site_settings` writable rows for editable brand/contact/hero content (table exists — extend usage)
+Step 2 is being refused. The server log shows:
 
-## 5. Admin CRUD (all under `/admin/*`)
-Expand `src/lib/admin.functions.ts` with full CRUD:
-- **Products**: create/update/delete + manage color variants + image uploads (multi)
-- **Categories**: full CRUD w/ image
-- **Blog posts**: full CRUD w/ cover image + rich text (textarea markdown)
-- **Gallery images**: upload/delete
-- **Reviews**: approve/reject/delete
-- **Orders**: status update (exists) + view details + delete
-- **Customers**: list + role management (promote/demote admin)
-- **Site settings**: edit brand name, contact info, hero copy, social links, About/Manufacturing/etc. page content
-- **Contact messages / newsletter**: list + export
+```text
+[formsubmit] order email failed 429
+{"success":false,"message":"Rate limit exceeded. Please try again later."}
+```
 
-New admin routes:
-- `admin.products.new.tsx`, `admin.products.$id.edit.tsx`
-- `admin.categories.tsx`, `admin.categories.new.tsx`, `admin.categories.$id.edit.tsx`
-- `admin.blog.tsx`, `admin.blog.new.tsx`, `admin.blog.$id.edit.tsx`
-- `admin.gallery.tsx`
-- `admin.messages.tsx`
-- `admin.settings.tsx` (rewrite as editable form)
-- Extend `admin.customers.tsx` with role toggle
-- Extend `admin.reviews.tsx` with approve/reject actions
+`429` is the HTTP status for "too many requests". FormSubmit is not rejecting the
+content of your order — it is refusing to accept the request at all, so no email
+is ever generated.
 
-Reusable `<ImageUploader />` and `<MultiImageUploader />` components.
-Reusable `<ColorVariantEditor />` (name + hex + multi-image upload).
+Why it happens here specifically:
 
-## 6. Public site reads editable content
-- Homepage hero, About, Manufacturing etc. read from `site_settings` when present, fallback to hardcoded copy
-- Product detail: read `product_colors` → color swatches switch image gallery
+- FormSubmit's free tier throttles **per sending IP address**, not per form or per
+  recipient. Right now the request is sent from the app's server (a Cloudflare
+  Worker), whose outbound IP is shared with a large number of other sites. Those
+  other sites' submissions burn through the quota, so your order hits the limit
+  even on your first attempt of the day.
+- FormSubmit also expects submissions to look like they came from a real browser
+  form on your domain. Server-to-server posts with no real browser origin are
+  treated as suspicious traffic and get throttled harder.
+- The limit is time-windowed. It clears on its own after a while, which is why an
+  occasional email may sneak through and then stop again — it is intermittent by
+  nature, not a permanent block.
 
-## 7. Verification
-- Typecheck (`tsgo`)
-- Manual: create product with 2 colors + images as admin, view on `/products/:slug`, add to cart, checkout → FormSubmit email received + order in DB
+Important: the failure is silent to the customer. The order still saves and the
+success page still shows, so nothing looks broken from the outside.
+
+## Fix
+
+Send the FormSubmit request **from the customer's browser** instead of from the
+server. Each customer has their own IP, so the shared-server throttle disappears,
+and the request carries a genuine browser origin from your domain.
+
+Flow after the change:
+
+```text
+Checkout submit
+  -> save order to database (unchanged, still appears in admin panel)
+  -> browser posts order details to FormSubmit
+       success -> done
+       429/failure -> retry once after a short pause
+       still failing -> server-side attempt as a backup
+  -> redirect to order success page (always, regardless of email outcome)
+```
+
+Both paths keep working: the order is always in the admin panel, and the email is
+attempted through the path most likely to succeed.
+
+Additionally:
+
+- Record whether the notification succeeded on the order row, and show an
+  "email not delivered" flag in the admin orders list so you can spot any order
+  that did not reach your inbox instead of finding out by accident.
+- Add a "Resend notification" button on the admin order view to re-fire the email
+  for any order that failed.
 
 ## Technical notes
-- Storage bucket public for simple `<img src>`; upload only via authenticated admin server fn (RLS on `storage.objects`)
-- FormSubmit endpoint: `https://formsubmit.co/ajax/info@leeshoefactory.com`
-- All admin mutations gated by `has_role(uid,'admin')` check in server fn
-- `site_settings` uses key/value JSON rows so new editable fields don't need schema changes
+
+- Move the FormSubmit call out of `submitOrder` in `src/lib/orders.functions.ts`
+  into a small client helper (`src/lib/notify-order.ts`) invoked from
+  `src/routes/checkout.tsx` after `submitOrder` resolves.
+- Keep the existing payload shape (`_subject`, `_template: "table"`,
+  `_captcha: "false"`, flattened `items` string) — that part is already correct.
+- Retry policy: one immediate attempt, one retry after ~2s on a 429, then fall
+  back to the existing server-side call. Never block the redirect on it.
+- Persist the outcome via a small server function updating a new
+  `notified_at` / `notify_error` column on `orders` (migration with GRANTs and
+  admin-only update policy).
+
+## Longer term
+
+FormSubmit's free tier will always be an unreliable relay for a live store. Once
+your sender domain is verified, order emails can go out from
+`info@leeshoefactory.com` directly with no third-party throttle and proper
+deliverability. This plan does not depend on that — it makes FormSubmit work
+today — but it remains the durable option.
